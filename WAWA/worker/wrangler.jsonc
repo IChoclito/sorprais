@@ -1,0 +1,12 @@
+{
+  "name": "sorpraiss-worker",
+  "main": "index.js",
+  "compatibility_date": "2026-09-20",
+
+  "r2_buckets": [
+    {
+      "binding": "SORPRAISSS_BUCKET",
+      "bucket_name": "sorpraiss"
+    }
+  ]
+}

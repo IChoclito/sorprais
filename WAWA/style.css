@@ -1,0 +1,1958 @@
+/* =========================================
+   VARIABLES
+========================================= */
+
+:root {
+
+    --black: #171412;
+    --black-2: #211c19;
+    --black-3: #2a2421;
+
+    --cream: #e8ded2;
+    --cream-2: #d8c9bb;
+    --cream-3: #bdaea1;
+
+    --red: #c74435;
+    --red-dark: #8f2922;
+    --red-light: #e76b59;
+
+    --orange: #c76d32;
+    --orange-dark: #87451f;
+
+    --brown: #5b4031;
+
+    --transition: 0.35s ease;
+
+}
+
+
+/* =========================================
+   RESET
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at top,
+            #2a2421 0%,
+            var(--black) 45%,
+            #120f0d 100%
+        );
+
+    color: var(--cream);
+
+    font-family:
+        "Segoe UI",
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        sans-serif;
+
+    overflow-x: hidden;
+
+}
+
+
+/* =========================================
+   NAVEGACIÓN
+========================================= */
+
+.main-nav {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 18px 22px;
+
+    z-index: 1000;
+
+    pointer-events: none;
+
+}
+
+.main-nav button {
+    pointer-events: auto;
+}
+
+
+.logo-button {
+
+    width: 46px;
+    height: 46px;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(232, 222, 210, 0.15);
+
+    background: rgba(23, 20, 18, 0.75);
+
+    backdrop-filter: blur(10px);
+
+    font-size: 23px;
+
+    cursor: pointer;
+
+    transition: transform var(--transition);
+
+}
+
+.logo-button:hover {
+    transform: scale(1.08);
+}
+
+
+.music-button {
+
+    border: 1px solid rgba(232, 222, 210, 0.15);
+
+    background: rgba(23, 20, 18, 0.75);
+
+    backdrop-filter: blur(10px);
+
+    color: var(--cream);
+
+    padding: 11px 16px;
+
+    border-radius: 30px;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    transition: var(--transition);
+}
+
+.music-button:hover {
+
+    border-color: var(--red);
+
+    background: rgba(199, 68, 53, 0.15);
+
+}
+
+
+/* =========================================
+   AVISO DE MÚSICA
+========================================= */
+
+.music-tip {
+
+    position: fixed;
+
+    top: 80px;
+    right: 18px;
+
+    z-index: 999;
+
+    max-width: 250px;
+
+    padding: 11px 15px;
+
+    border-radius: 14px;
+
+    background: rgba(23, 20, 18, 0.92);
+
+    border: 1px solid rgba(199, 109, 50, 0.4);
+
+    color: var(--cream);
+
+    font-size: 12px;
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.25);
+
+    transition:
+        opacity 0.5s ease,
+        transform 0.5s ease;
+
+}
+
+.music-tip.hidden {
+
+    opacity: 0;
+
+    transform: translateY(-10px);
+
+    pointer-events: none;
+
+}
+
+
+/* =========================================
+   PANTALLAS
+========================================= */
+
+.screen {
+
+    display: none;
+
+    min-height: 100vh;
+
+    width: 100%;
+
+    padding:
+        100px 22px
+        60px;
+
+}
+
+.screen.active-screen {
+
+    display: flex;
+
+    animation:
+        screenIn 0.65s ease both;
+
+}
+
+@keyframes screenIn {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(15px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+
+/* =========================================
+   TEXTOS GENERALES
+========================================= */
+
+.eyebrow,
+.chapter-label {
+
+    display: block;
+
+    color: var(--orange);
+
+    font-size: 11px;
+
+    letter-spacing: 0.2em;
+
+    text-transform: uppercase;
+
+    font-weight: 700;
+
+}
+
+h1,
+h2,
+h3 {
+
+    font-weight: 700;
+
+    letter-spacing: -0.04em;
+
+}
+
+p {
+
+    line-height: 1.7;
+
+}
+
+
+/* =========================================
+   BOTONES
+========================================= */
+
+.primary-button {
+
+    border: none;
+
+    background: var(--red);
+
+    color: white;
+
+    padding: 15px 25px;
+
+    border-radius: 14px;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform var(--transition),
+        background var(--transition),
+        box-shadow var(--transition);
+
+    box-shadow:
+        0 10px 25px rgba(199, 68, 53, 0.2);
+
+}
+
+.primary-button:hover {
+
+    transform: translateY(-3px);
+
+    background: var(--red-light);
+
+    box-shadow:
+        0 15px 30px rgba(199, 68, 53, 0.3);
+
+}
+
+.primary-button:active {
+    transform: scale(0.97);
+}
+
+
+/* =========================================
+   HOME
+========================================= */
+
+#home {
+
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+}
+
+.home-content {
+
+    width: min(100%, 600px);
+
+}
+
+.home-tomato {
+
+    font-size: 72px;
+
+    margin-bottom: 20px;
+
+    animation:
+        tomatoFloat 3s ease-in-out infinite;
+
+}
+
+@keyframes tomatoFloat {
+
+    0%,
+    100% {
+        transform:
+            translateY(0)
+            rotate(-2deg);
+    }
+
+    50% {
+        transform:
+            translateY(-8px)
+            rotate(2deg);
+    }
+
+}
+
+.home-content h1 {
+
+    margin-top: 12px;
+
+    font-size:
+        clamp(42px, 9vw, 75px);
+
+    line-height: 0.98;
+
+}
+
+.home-subtitle {
+
+    margin:
+        22px
+        0
+        28px;
+
+    color: var(--cream-3);
+
+}
+
+
+/* =========================================
+   PRESENTACIÓN
+========================================= */
+
+#presentation,
+#tomorrow,
+#final {
+
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+}
+
+.presentation-content,
+.simple-message,
+.final-content {
+
+    width: min(100%, 600px);
+
+}
+
+.presentation-content h2,
+.simple-message h2,
+.final-content h2 {
+
+    margin:
+        18px 0;
+
+    font-size:
+        clamp(38px, 8vw, 65px);
+
+    line-height: 1;
+
+}
+
+.presentation-content p,
+.simple-message p,
+.final-content p {
+
+    color: var(--cream-3);
+
+    max-width: 450px;
+
+    margin:
+        0 auto 35px;
+
+}
+
+.choice-buttons {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+
+}
+
+.choice-button {
+
+    padding: 14px 20px;
+
+    border-radius: 13px;
+
+    border:
+        1px solid
+        rgba(232, 222, 210, 0.16);
+
+    cursor: pointer;
+
+    font-weight: 700;
+
+    transition: var(--transition);
+
+}
+
+.choice-secondary {
+
+    background: transparent;
+
+    color: var(--cream-2);
+
+}
+
+.choice-secondary:hover {
+
+    background:
+        rgba(232, 222, 210, 0.06);
+
+}
+
+.choice-primary {
+
+    background: var(--red);
+
+    color: white;
+
+    border-color: var(--red);
+
+}
+
+.choice-primary:hover {
+
+    background: var(--red-light);
+
+}
+
+
+/* =========================================
+   CAPÍTULO 0
+========================================= */
+
+#origin {
+
+    display: none;
+
+    flex-direction: column;
+
+    align-items: center;
+
+}
+
+#origin.active-screen {
+    display: flex;
+}
+
+.origin-header {
+
+    width: min(100%, 760px);
+
+    text-align: center;
+
+    margin-bottom: 60px;
+
+}
+
+.origin-header h2 {
+
+    font-size:
+        clamp(42px, 8vw, 70px);
+
+    line-height: 0.95;
+
+    margin:
+        18px 0;
+
+}
+
+.origin-header p {
+
+    max-width: 570px;
+
+    margin: auto;
+
+    color: var(--cream-3);
+
+}
+
+
+/* =========================================
+   TIMELINE
+========================================= */
+
+.origin-timeline {
+
+    position: relative;
+
+    width: min(100%, 800px);
+
+}
+
+.origin-timeline::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+
+    left: 50%;
+
+    width: 1px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent,
+            var(--brown),
+            transparent
+        );
+
+    transform:
+        translateX(-50%);
+
+}
+
+.origin-item {
+
+    position: relative;
+
+    width: 100%;
+
+    display: flex;
+
+    margin-bottom: 80px;
+
+}
+
+.origin-item:nth-child(odd) {
+
+    justify-content: flex-start;
+
+}
+
+.origin-item:nth-child(even) {
+
+    justify-content: flex-end;
+
+}
+
+.origin-card {
+
+    width:
+        calc(50% - 35px);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(42, 36, 33, 0.96),
+            rgba(31, 27, 24, 0.96)
+        );
+
+    border:
+        1px solid
+        rgba(232, 222, 210, 0.09);
+
+    border-radius: 22px;
+
+    padding: 22px;
+
+    box-shadow:
+        0 20px 50px
+        rgba(0, 0, 0, 0.18);
+
+}
+
+.origin-item::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+
+    top: 26px;
+
+    width: 12px;
+    height: 12px;
+
+    border-radius: 50%;
+
+    background: var(--red);
+
+    border:
+        3px solid
+        var(--black);
+
+    transform:
+        translateX(-50%);
+
+    z-index: 2;
+
+}
+
+.origin-card h3 {
+
+    margin:
+        10px 0;
+
+    font-size: 23px;
+
+}
+
+.origin-card p {
+
+    color: var(--cream-3);
+
+    font-size: 14px;
+
+}
+
+
+/* =========================================
+   CARRUSEL ANTIGUO
+   Se mantiene porque puede seguir siendo
+   utilizado por otras partes del proyecto.
+========================================= */
+
+.story-carousel {
+
+    position: relative;
+
+    width: 100%;
+
+    margin-top: 20px;
+
+}
+
+.story-image-wrapper {
+
+    position: relative;
+
+    width: 100%;
+
+    height: 300px;
+
+    overflow: hidden;
+
+    border-radius: 16px;
+
+    background: #110f0d;
+
+}
+
+.story-image {
+
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: contain;
+
+    background: #110f0d;
+
+    transition:
+        opacity 0.35s ease,
+        transform 0.4s ease;
+
+}
+
+.story-image.changing {
+
+    opacity: 0;
+
+    transform: scale(0.98);
+
+}
+
+.story-placeholder {
+
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    color: var(--cream-3);
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(199, 109, 50, 0.08),
+            transparent 65%
+        );
+
+}
+
+.story-placeholder p {
+
+    font-size: 12px;
+
+}
+
+.story-carousel-arrow {
+
+    position: absolute;
+
+    top: 50%;
+
+    width: 38px;
+    height: 38px;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.15);
+
+    border-radius: 50%;
+
+    background:
+        rgba(0,0,0,0.55);
+
+    color: white;
+
+    font-size: 24px;
+
+    cursor: pointer;
+
+    transform:
+        translateY(-50%);
+
+    z-index: 3;
+
+    transition: var(--transition);
+
+}
+
+.story-carousel-arrow:hover {
+
+    background: var(--red);
+
+}
+
+.story-carousel-prev {
+    left: 10px;
+}
+
+.story-carousel-next {
+    right: 10px;
+}
+
+.story-counter {
+
+    position: absolute;
+
+    bottom: 10px;
+    right: 10px;
+
+    padding:
+        5px 9px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(0,0,0,0.65);
+
+    color: white;
+
+    font-size: 11px;
+
+}
+
+.story-dots {
+
+    display: flex;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 5px;
+
+    margin-top: 12px;
+
+}
+
+.story-dot {
+
+    width: 6px;
+    height: 6px;
+
+    padding: 0;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        rgba(232, 222, 210, 0.25);
+
+    cursor: pointer;
+
+    transition: var(--transition);
+
+}
+
+.story-dot.active {
+
+    width: 20px;
+
+    border-radius: 5px;
+
+    background: var(--orange);
+
+}
+
+
+/* =========================================================
+   NUEVO
+   CARRUSEL DE "CÓMO EMPEZÓ TODO"
+========================================================= */
+
+.origin-carousel {
+
+    position: relative;
+
+    width: 100%;
+
+    margin-top: 22px;
+
+}
+
+
+/* ---------------------------------------------------------
+   CONTENEDOR DE LA IMAGEN
+--------------------------------------------------------- */
+
+.origin-carousel-viewport {
+
+    position: relative;
+
+    width: 100%;
+
+    height: 330px;
+
+    overflow: hidden;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #110f0d,
+            #211c19
+        );
+
+    border:
+        1px solid
+        rgba(232, 222, 210, 0.08);
+
+    box-shadow:
+        0 20px 45px
+        rgba(0, 0, 0, 0.25);
+
+}
+
+
+/* ---------------------------------------------------------
+   IMAGEN
+--------------------------------------------------------- */
+
+.origin-carousel-image {
+
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: contain;
+
+    background: #110f0d;
+
+    opacity: 1;
+
+    transform: scale(1);
+
+    transition:
+        opacity 0.35s ease,
+        transform 0.45s ease;
+
+}
+
+
+/* ---------------------------------------------------------
+   TRANSICIÓN
+--------------------------------------------------------- */
+
+.origin-carousel-image.changing {
+
+    opacity: 0;
+
+    transform: scale(0.97);
+
+}
+
+
+/* ---------------------------------------------------------
+   FLECHAS
+--------------------------------------------------------- */
+
+.origin-carousel-arrow {
+
+    position: absolute;
+
+    top: 50%;
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.16);
+
+    border-radius: 50%;
+
+    background:
+        rgba(0,0,0,0.55);
+
+    color: white;
+
+    font-size: 28px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    transform:
+        translateY(-50%);
+
+    z-index: 5;
+
+    transition:
+        background var(--transition),
+        transform var(--transition),
+        border-color var(--transition);
+
+}
+
+.origin-carousel-arrow:hover {
+
+    background: var(--red);
+
+    border-color: var(--red);
+
+    transform:
+        translateY(-50%)
+        scale(1.08);
+
+}
+
+.origin-carousel-arrow:active {
+
+    transform:
+        translateY(-50%)
+        scale(0.94);
+
+}
+
+.origin-carousel-prev {
+
+    left: 12px;
+
+}
+
+.origin-carousel-next {
+
+    right: 12px;
+
+}
+
+
+/* ---------------------------------------------------------
+   PUNTOS
+--------------------------------------------------------- */
+
+.origin-carousel-dots {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 6px;
+
+    width: 100%;
+
+    margin-top: 13px;
+
+    padding:
+        0 10px;
+
+}
+
+.origin-carousel-dot {
+
+    width: 7px;
+    height: 7px;
+
+    padding: 0;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        rgba(232, 222, 210, 0.25);
+
+    cursor: pointer;
+
+    transition:
+        width var(--transition),
+        background var(--transition),
+        transform var(--transition);
+
+}
+
+.origin-carousel-dot:hover {
+
+    background:
+        rgba(232, 222, 210, 0.55);
+
+    transform: scale(1.15);
+
+}
+
+.origin-carousel-dot.active {
+
+    width: 22px;
+
+    border-radius: 6px;
+
+    background: var(--orange);
+
+}
+
+
+/* ---------------------------------------------------------
+   CARRUSEL VACÍO
+--------------------------------------------------------- */
+
+.origin-carousel-empty
+.origin-carousel-viewport {
+
+    min-height: 150px;
+
+}
+
+.origin-carousel-empty
+.origin-carousel-image {
+
+    display: none;
+
+}
+
+
+/* =========================================
+   FINAL CAPÍTULO 0
+========================================= */
+
+.origin-end {
+
+    text-align: center;
+
+    margin:
+        40px
+        auto
+        0;
+
+    padding-top: 60px;
+
+}
+
+.origin-end span {
+
+    color: var(--cream-3);
+
+    font-size: 14px;
+
+}
+
+.origin-end h3 {
+
+    margin:
+        10px 0
+        28px;
+
+    font-size:
+        clamp(42px, 8vw, 70px);
+
+}
+
+
+/* =========================================
+   MESES
+========================================= */
+
+#months {
+
+    align-items: flex-start;
+
+    justify-content: center;
+
+}
+
+.months-wrapper {
+
+    width:
+        min(100%, 680px);
+
+    margin:
+        0 auto;
+
+}
+
+.month-header {
+
+    text-align: center;
+
+    margin-bottom: 30px;
+
+}
+
+.month-header h2 {
+
+    font-size:
+        clamp(40px, 8vw, 64px);
+
+    line-height: 0.95;
+
+    margin:
+        12px 0
+        10px;
+
+}
+
+.month-date {
+
+    color: var(--cream-3);
+
+    font-size: 14px;
+
+}
+
+
+/* =========================================
+   CARRUSEL DE MESES
+========================================= */
+
+.month-carousel {
+
+    position: relative;
+
+    width: 100%;
+
+}
+
+.carousel-image-wrapper {
+
+    position: relative;
+
+    width: 100%;
+
+    height:
+        min(72vh, 520px);
+
+    min-height: 320px;
+
+    overflow: hidden;
+
+    border-radius: 24px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #0f0d0c,
+            #211c19
+        );
+
+    border:
+        1px solid
+        rgba(232, 222, 210, 0.08);
+
+    box-shadow:
+        0 30px 70px
+        rgba(0,0,0,0.3);
+
+}
+
+.carousel-image {
+
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: contain;
+
+    background: #100e0d;
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.35s ease;
+
+}
+
+.carousel-image.changing {
+
+    opacity: 0;
+
+    transform: scale(0.98);
+
+}
+
+.carousel-placeholder {
+
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    padding: 30px;
+
+    color: var(--cream-3);
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(199, 68, 53, 0.08),
+            transparent 60%
+        );
+
+}
+
+.carousel-placeholder p {
+
+    font-size: 13px;
+
+}
+
+.carousel-arrow {
+
+    position: absolute;
+
+    top: 50%;
+
+    width: 44px;
+    height: 44px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.15);
+
+    background:
+        rgba(0,0,0,0.58);
+
+    color: white;
+
+    font-size: 29px;
+
+    cursor: pointer;
+
+    transform:
+        translateY(-50%);
+
+    z-index: 5;
+
+    transition: var(--transition);
+
+}
+
+.carousel-arrow:hover {
+
+    background: var(--red);
+
+    transform:
+        translateY(-50%)
+        scale(1.08);
+
+}
+
+.carousel-arrow:disabled {
+
+    opacity: 0;
+
+    pointer-events: none;
+
+}
+
+.carousel-prev {
+    left: 12px;
+}
+
+.carousel-next {
+    right: 12px;
+}
+
+.carousel-counter {
+
+    position: absolute;
+
+    right: 14px;
+    bottom: 14px;
+
+    z-index: 4;
+
+    padding:
+        7px 11px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(0,0,0,0.65);
+
+    color: white;
+
+    font-size: 12px;
+
+}
+
+
+/* =========================================
+   PUNTOS DEL CARRUSEL
+========================================= */
+
+.carousel-dots {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 6px;
+
+    margin:
+        15px auto
+        25px;
+
+    max-width: 95%;
+
+}
+
+.carousel-dot {
+
+    width: 7px;
+    height: 7px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        rgba(232, 222, 210, 0.25);
+
+    cursor: pointer;
+
+    transition: var(--transition);
+
+}
+
+.carousel-dot.active {
+
+    width: 23px;
+
+    border-radius: 6px;
+
+    background: var(--orange);
+
+}
+
+
+/* =========================================
+   HISTORIA DEL MES
+========================================= */
+
+.month-story-card {
+
+    position: relative;
+
+    margin-top: 15px;
+
+    padding:
+        22px
+        22px
+        22px
+        28px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(42,36,33,0.95),
+            rgba(31,27,24,0.95)
+        );
+
+    border:
+        1px solid
+        rgba(232,222,210,0.08);
+
+    border-radius: 20px;
+
+}
+
+.month-story-card p {
+
+    color: var(--cream-2);
+
+    font-size: 15px;
+
+}
+
+.story-line {
+
+    position: absolute;
+
+    left: 14px;
+
+    top: 18px;
+    bottom: 18px;
+
+    width: 2px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            var(--red),
+            var(--orange)
+        );
+
+    border-radius: 5px;
+
+}
+
+
+/* =========================================
+   PROGRESO
+========================================= */
+
+.month-progress {
+
+    margin-top: 30px;
+
+}
+
+.progress-top {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    color: var(--cream-3);
+
+    font-size: 11px;
+
+    margin-bottom: 8px;
+
+}
+
+.progress-bar {
+
+    width: 100%;
+
+    height: 3px;
+
+    background:
+        rgba(232,222,210,0.1);
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+}
+
+.progress-fill {
+
+    width: 8.33%;
+
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--red),
+            var(--orange)
+        );
+
+    transition:
+        width 0.5s ease;
+
+}
+
+
+/* =========================================
+   NAVEGACIÓN DE MESES
+========================================= */
+
+.month-navigation {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-top: 25px;
+
+}
+
+.month-nav-button {
+
+    flex: 1;
+
+    padding: 13px;
+
+    border-radius: 13px;
+
+    border:
+        1px solid
+        rgba(232,222,210,0.12);
+
+    background:
+        rgba(232,222,210,0.04);
+
+    color: var(--cream-2);
+
+    cursor: pointer;
+
+    transition: var(--transition);
+
+}
+
+.month-nav-button:hover {
+
+    background:
+        rgba(199,68,53,0.12);
+
+    border-color: var(--red);
+
+    color: white;
+
+}
+
+.month-nav-button:disabled {
+
+    opacity: 0.25;
+
+    cursor: default;
+
+}
+
+.final-month-button {
+
+    display: block;
+
+    margin:
+        25px
+        auto
+        0;
+
+}
+
+
+/* =========================================
+   FINAL
+========================================= */
+
+.final-tomato {
+
+    font-size: 70px;
+
+    margin:
+        25px
+        0;
+
+}
+
+.final-small {
+
+    font-size: 13px;
+
+    color: var(--cream-3);
+
+    margin-top:
+        -20px !important;
+
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 700px) {
+
+    .screen {
+
+        padding:
+            100px 17px
+            50px;
+
+    }
+
+
+    .main-nav {
+
+        padding:
+            14px 15px;
+
+    }
+
+
+    .music-tip {
+
+        right: 14px;
+
+        left: 14px;
+
+        max-width: none;
+
+        text-align: center;
+
+    }
+
+
+    .origin-header {
+
+        margin-bottom: 45px;
+
+    }
+
+
+    .origin-timeline::before {
+
+        left: 12px;
+
+    }
+
+
+    .origin-item {
+
+        justify-content:
+            flex-start !important;
+
+        padding-left: 35px;
+
+    }
+
+
+    .origin-item::after {
+
+        left: 12px;
+
+    }
+
+
+    .origin-card {
+
+        width: 100%;
+
+    }
+
+
+    /* =====================================
+       NUEVO:
+       CARRUSEL ORIGIN EN MÓVIL
+    ====================================== */
+
+    .origin-carousel-viewport {
+
+        height: 280px;
+
+        border-radius: 16px;
+
+    }
+
+
+    .origin-carousel-arrow {
+
+        width: 38px;
+        height: 38px;
+
+        font-size: 24px;
+
+    }
+
+
+    .origin-carousel-prev {
+
+        left: 8px;
+
+    }
+
+
+    .origin-carousel-next {
+
+        right: 8px;
+
+    }
+
+
+    .origin-carousel-dots {
+
+        gap: 5px;
+
+    }
+
+
+    .origin-carousel-dot {
+
+        width: 6px;
+        height: 6px;
+
+    }
+
+
+    .origin-carousel-dot.active {
+
+        width: 19px;
+
+    }
+
+
+    .story-image-wrapper {
+
+        height: 280px;
+
+    }
+
+
+    .carousel-image-wrapper {
+
+        height:
+            62vh;
+
+        min-height: 330px;
+
+        max-height: 500px;
+
+        border-radius: 20px;
+
+    }
+
+
+    .carousel-arrow {
+
+        width: 40px;
+        height: 40px;
+
+    }
+
+
+    .choice-buttons {
+
+        flex-direction: column;
+
+        width: 100%;
+
+    }
+
+
+    .choice-button {
+
+        width: 100%;
+
+    }
+
+
+    .month-navigation {
+
+        gap: 8px;
+
+    }
+
+
+    .month-nav-button {
+
+        font-size: 12px;
+
+    }
+
+}
+
+
+@media (max-width: 400px) {
+
+    .carousel-image-wrapper {
+
+        min-height: 300px;
+
+    }
+
+
+    .origin-carousel-viewport {
+
+        height: 250px;
+
+    }
+
+
+    .month-header h2 {
+
+        font-size: 38px;
+
+    }
+
+
+    .origin-card {
+
+        padding: 17px;
+
+    }
+
+}
+
+
+/* =========================================
+   REDUCIR ANIMACIONES
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        animation-duration:
+            0.01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+        transition-duration:
+            0.01ms !important;
+
+        scroll-behavior:
+            auto !important;
+
+    }
+
+}

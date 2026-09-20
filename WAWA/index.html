@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <!-- =====================================================
+         CAMBIO:
+         Se eliminó el 🍊 del título.
+         El único emoji del proyecto sigue siendo 🍅.
+    ====================================================== -->
+
+    <title>Sorpraisss🍅</title>
+
+    <meta
+        name="description"
+        content="Una pequeña historia sobre nosotros."
+    >
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVEGACIÓN
+    ====================================================== -->
+
+    <!-- CAMBIO:
+         Se mantiene <nav>, pero ahora tiene una etiqueta
+         accesible para identificar su función.
+    -->
+
+    <nav
+        id="mainNav"
+        class="main-nav"
+        aria-label="Navegación principal"
+    >
+
+        <!-- =================================================
+             LOGO / VOLVER AL INICIO
+        ================================================== -->
+
+        <button
+            id="logoHome"
+            class="logo-button"
+            type="button"
+            aria-label="Volver al inicio"
+        >
+            🍅
+        </button>
+
+
+        <!-- =================================================
+             MÚSICA
+             
+             CAMBIO:
+             Lo dejamos como estaba.
+             No tocamos los iconos porque dijiste que prefieres
+             mantenerlos.
+        ================================================== -->
+
+        <button
+            id="musicToggle"
+            class="music-button"
+            type="button"
+            aria-label="Controlar música"
+        >
+            Música
+        </button>
+
+    </nav>
+
+
+
+    <!-- =====================================================
+         AVISO DE MÚSICA
+    ====================================================== -->
+
+    <div
+        id="musicTip"
+        class="music-tip"
+        role="status"
+        aria-live="polite"
+    >
+        activa la música antes de continuar :3
+    </div>
+
+
+
+    <!-- =====================================================
+         AUDIO
+    ====================================================== -->
+
+    <audio
+        id="backgroundMusic"
+        loop
+        preload="auto"
+    >
+
+        <source
+            src="music/musica.mp3"
+            type="audio/mpeg"
+        >
+
+    </audio>
+
+
+
+    <!-- =====================================================
+         CONTENIDO PRINCIPAL
+    ====================================================== -->
+
+    <main>
+
+
+        <!-- =================================================
+             INICIO
+        ================================================== -->
+
+        <section
+            id="home"
+            class="screen active-screen"
+            aria-labelledby="homeTitle"
+        >
+
+            <div class="home-content">
+
+
+                <!-- TOMATE PRINCIPAL -->
+
+                <div
+                    class="home-tomato"
+                    aria-hidden="true"
+                >
+                    🍅
+                </div>
+
+
+                <p class="eyebrow">
+                    SORPRAISSS
+                </p>
+
+
+                <h1 id="homeTitle">
+
+                    Tengo algo
+                    <br>
+                    que enseñarte.
+
+                </h1>
+
+
+                <p class="home-subtitle">
+                    Pero primero...
+                </p>
+
+
+                <button
+                    id="touchButton"
+                    class="primary-button"
+                    type="button"
+                >
+                    Tócame
+                </button>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             PRESENTACIÓN
+        ================================================== -->
+
+        <section
+            id="presentation"
+            class="screen"
+            aria-labelledby="presentationTitle"
+        >
+
+            <div class="presentation-content">
+
+
+                <span class="chapter-label">
+                    Antes de empezar
+                </span>
+
+
+                <h2 id="presentationTitle">
+
+                    ¿Estás seguro
+                    <br>
+                    de querer continuar?
+
+                </h2>
+
+
+                <p>
+                    Porque después de esto ya no hay vuelta atrás.
+                </p>
+
+
+                <div class="choice-buttons">
+
+
+                    <!-- BOTÓN NO -->
+
+                    <button
+                        id="noButton"
+                        class="choice-button choice-secondary"
+                        type="button"
+                    >
+                        no, no jds
+                    </button>
+
+
+                    <!-- BOTÓN MAÑANA -->
+
+                    <button
+                        id="tomorrowButton"
+                        class="choice-button choice-primary"
+                        type="button"
+                    >
+                        ok mañana
+                    </button>
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             MAÑANA
+        ================================================== -->
+
+        <section
+            id="tomorrow"
+            class="screen"
+            aria-labelledby="tomorrowTitle"
+        >
+
+            <div class="simple-message">
+
+
+                <span class="chapter-label">
+                    Decisión cuestionable
+                </span>
+
+
+                <h2 id="tomorrowTitle">
+                    Bueno pues...
+                </h2>
+
+
+                <p>
+
+                    Mañana entonces.
+                    <br>
+                    Aunque sabemos que no vas a esperar.
+
+                </p>
+
+
+                <button
+                    id="tomorrowBack"
+                    class="primary-button"
+                    type="button"
+                >
+                    Continuar
+                </button>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             CAPÍTULO 0
+             CÓMO EMPEZÓ TODO
+        ================================================== -->
+
+        <section
+            id="origin"
+            class="screen"
+            aria-labelledby="originTitle"
+        >
+
+
+            <!-- CABECERA -->
+
+            <div class="origin-header">
+
+
+                <span class="chapter-label">
+                    Capítulo 0
+                </span>
+
+
+                <h2 id="originTitle">
+                    Cómo empezó todo
+                </h2>
+
+
+                <p>
+
+                    Antes de ser nosotros,
+                    hubo una historia que ninguno de los dos
+                    sabía cómo iba a terminar.
+
+                </p>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 LÍNEA DE TIEMPO
+                 
+                 IMPORTANTE:
+                 Este contenedor NO lleva las fotos directamente.
+
+                 El script.js genera aquí automáticamente:
+                 - momentos
+                 - textos
+                 - carruseles
+                 - flechas
+                 - puntos
+                 - fotos obtenidas desde R2
+            ================================================== -->
+
+            <div
+                id="originTimeline"
+                class="origin-timeline"
+                aria-live="polite"
+            ></div>
+
+
+
+            <!-- =================================================
+                 FINAL DE LA HISTORIA DE ORIGEN
+            ================================================== -->
+
+            <div class="origin-end">
+
+
+                <span>
+                    Y después de todo eso...
+                </span>
+
+
+                <h3>
+                    Ahora sí.
+                </h3>
+
+
+                <button
+                    id="enterRelationship"
+                    class="primary-button"
+                    type="button"
+                >
+                    Empezar nuestra historia
+                </button>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             MESES 1 - 12
+        ================================================== -->
+
+        <section
+            id="months"
+            class="screen"
+            aria-labelledby="monthsTitle"
+        >
+
+
+            <div class="months-wrapper">
+
+
+                <!-- =================================================
+                     CABECERA DEL MES
+                ================================================== -->
+
+                <div class="month-header">
+
+
+                    <span
+                        id="monthNumber"
+                        class="chapter-label"
+                    >
+                        MES 01
+                    </span>
+
+
+                    <h2 id="monthsTitle">
+                        <span id="monthTitle">
+                            Octubre 2025
+                        </span>
+                    </h2>
+
+
+                    <p
+                        id="monthDate"
+                        class="month-date"
+                    >
+                        Nuestro primer mes
+                    </p>
+
+
+                </div>
+
+
+
+                <!-- =================================================
+                     CARRUSEL DEL MES
+                     
+                     Este carrusel seguirá funcionando con la
+                     estructura que ya tiene tu script.js.
+                ================================================== -->
+
+                <div
+                    class="month-carousel"
+                    aria-label="Fotos del mes"
+                >
+
+
+                    <div class="carousel-image-wrapper">
+
+
+                        <img
+                            id="monthPhoto"
+                            class="carousel-image"
+                            src=""
+                            alt="Foto del mes"
+                            loading="lazy"
+                        >
+
+
+                        <div
+                            id="monthPhotoPlaceholder"
+                            class="carousel-placeholder"
+                        >
+
+                            <!--
+                                CAMBIO:
+                                Quité el icono de cámara para respetar
+                                la regla de emojis del proyecto.
+                            -->
+
+                            <p>
+                                Aquí irán las fotos de este mes
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         FOTO ANTERIOR
+                    ================================================== -->
+
+                    <button
+                        id="monthPrev"
+                        class="carousel-arrow carousel-prev"
+                        type="button"
+                        aria-label="Foto anterior"
+                    >
+                        ‹
+                    </button>
+
+
+
+                    <!-- =================================================
+                         FOTO SIGUIENTE
+                    ================================================== -->
+
+                    <button
+                        id="monthNext"
+                        class="carousel-arrow carousel-next"
+                        type="button"
+                        aria-label="Foto siguiente"
+                    >
+                        ›
+                    </button>
+
+
+
+                    <!-- =================================================
+                         CONTADOR
+                    ================================================== -->
+
+                    <div
+                        class="carousel-counter"
+                        aria-live="polite"
+                    >
+
+                        <span id="monthPhotoCounter">
+                            0 / 0
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =================================================
+                     INDICADORES DEL CARRUSEL
+                ================================================== -->
+
+                <div
+                    id="monthDots"
+                    class="carousel-dots"
+                    aria-label="Indicadores de fotos"
+                ></div>
+
+
+
+                <!-- =================================================
+                     HISTORIA DEL MES
+                ================================================== -->
+
+                <article
+                    class="month-story-card"
+                    aria-label="Historia del mes"
+                >
+
+                    <div
+                        class="story-line"
+                        aria-hidden="true"
+                    ></div>
+
+
+                    <p id="monthStory">
+                        Aquí aparecerá la historia de este mes.
+                    </p>
+
+
+                </article>
+
+
+
+                <!-- =================================================
+                     PROGRESO
+                ================================================== -->
+
+                <div class="month-progress">
+
+
+                    <div class="progress-top">
+
+
+                        <span>
+                            Nuestra historia
+                        </span>
+
+
+                        <span
+                            id="monthProgressText"
+                            aria-live="polite"
+                        >
+                            1 / 12
+                        </span>
+
+
+                    </div>
+
+
+
+                    <div
+                        class="progress-bar"
+                        role="progressbar"
+                        aria-label="Progreso de nuestra historia"
+                        aria-valuemin="1"
+                        aria-valuemax="12"
+                        aria-valuenow="1"
+                    >
+
+                        <div
+                            id="monthProgressFill"
+                            class="progress-fill"
+                        ></div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =================================================
+                     CONTROLES DE MESES
+                ================================================== -->
+
+                <div class="month-navigation">
+
+
+                    <button
+                        id="monthPrevButton"
+                        class="month-nav-button"
+                        type="button"
+                    >
+                        ← Anterior
+                    </button>
+
+
+                    <button
+                        id="monthNextButton"
+                        class="month-nav-button"
+                        type="button"
+                    >
+                        Siguiente →
+                    </button>
+
+
+                </div>
+
+
+
+                <!-- =================================================
+                     CONTINUAR AL FINAL
+                ================================================== -->
+
+                <button
+                    id="continueFinal"
+                    class="primary-button final-month-button"
+                    type="button"
+                >
+                    Continuar
+                </button>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             FINAL
+        ================================================== -->
+
+        <section
+            id="final"
+            class="screen"
+            aria-labelledby="finalTitle"
+        >
+
+            <div class="final-content">
+
+
+                <span class="chapter-label">
+                    Fin... o eso parece
+                </span>
+
+
+
+                <div
+                    class="final-tomato"
+                    aria-hidden="true"
+                >
+                    🍅
+                </div>
+
+
+
+                <h2 id="finalTitle">
+
+                    Y pensar que
+                    <br>
+                    todo empezó así.
+
+                </h2>
+
+
+
+                <p>
+                    Gracias por estos dos años.
+                </p>
+
+
+
+                <p class="final-small">
+                    Y todavía falta muchísimo por contar.
+                </p>
+
+
+
+                <button
+                    id="finalHome"
+                    class="primary-button"
+                    type="button"
+                >
+                    Volver al inicio
+                </button>
+
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT PRINCIPAL
+    ====================================================== -->
+
+    <script src="script.js"></script>
+
+
+</body>
+
+</html>
