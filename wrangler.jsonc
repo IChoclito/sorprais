@@ -1,0 +1,18 @@
+{
+  "name": "sorprais",
+  "main": "WAWA/worker/index.js",
+  "compatibility_date": "2026-09-20",
+
+  "assets": {
+    "directory": "WAWA",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+
+  "r2_buckets": [
+    {
+      "binding": "SORPRAISSS_BUCKET",
+      "bucket_name": "sorpraiss"
+    }
+  ]
+}

@@ -21,97 +21,99 @@ function jsonResponse(data, status = 200) {
 
 export default {
     async fetch(request, env) {
-        // Permitir las peticiones CORS del navegador
-        if (request.method === "OPTIONS") {
-            return new Response(null, {
-                status: 204,
-                headers: CORS_HEADERS
-            });
-        }
-
-        // Solo necesitamos GET
-        if (request.method !== "GET") {
-            return jsonResponse(
-                { error: "Método no permitido" },
-                405
-            );
-        }
-
         const url = new URL(request.url);
+
+        /*
+         * 1. Consultas a R2
+         * Ejemplo:
+         * ?prefix=FOTOS%20Y%20VIDIOS%2FANTES%20DE%2FAyacucho%2F
+         */
         const prefix = url.searchParams.get("prefix");
 
-        // Debemos recibir un prefijo
-        if (!prefix) {
-            return jsonResponse(
-                {
-                    error: "Falta el parámetro prefix"
-                },
-                400
+        if (prefix) {
+            if (request.method === "OPTIONS") {
+                return new Response(null, {
+                    status: 204,
+                    headers: CORS_HEADERS
+                });
+            }
+
+            if (request.method !== "GET") {
+                return jsonResponse(
+                    { error: "Método no permitido" },
+                    405
+                );
+            }
+
+            const allowed = ALLOWED_PREFIXES.some((allowedPrefix) =>
+                prefix.startsWith(allowedPrefix)
             );
-        }
 
-        // Seguridad: solo permitimos nuestras carpetas
-        const allowed = ALLOWED_PREFIXES.some((allowedPrefix) =>
-            prefix.startsWith(allowedPrefix)
-        );
+            if (!allowed) {
+                return jsonResponse(
+                    { error: "Prefijo no permitido" },
+                    403
+                );
+            }
 
-        if (!allowed) {
-            return jsonResponse(
-                {
-                    error: "Prefijo no permitido"
-                },
-                403
-            );
-        }
+            try {
+                const objects = [];
+                let cursor;
 
-        try {
-            const objects = [];
-            let cursor;
+                do {
+                    const options = {
+                        prefix,
+                        limit: 1000
+                    };
 
-            // R2 devuelve como máximo 1000 objetos por listado.
-            // Si hubiera más, continuamos con la siguiente página.
-            do {
-                const options = {
+                    if (cursor) {
+                        options.cursor = cursor;
+                    }
+
+                    const result =
+                        await env.SORPRAISSS_BUCKET.list(options);
+
+                    objects.push(
+                        ...result.objects.map((object) => ({
+                            key: object.key,
+                            size: object.size,
+                            uploaded: object.uploaded
+                        }))
+                    );
+
+                    cursor = result.truncated
+                        ? result.cursor
+                        : undefined;
+
+                } while (cursor);
+
+                return jsonResponse({
+                    success: true,
                     prefix,
-                    limit: 1000
-                };
+                    count: objects.length,
+                    objects
+                });
 
-                if (cursor) {
-                    options.cursor = cursor;
-                }
-
-                const result = await env.SORPRAISSS_BUCKET.list(options);
-
-                objects.push(
-                    ...result.objects.map((object) => ({
-                        key: object.key,
-                        size: object.size,
-                        uploaded: object.uploaded
-                    }))
+            } catch (error) {
+                console.error(
+                    "Error consultando R2:",
+                    error
                 );
 
-                cursor = result.truncated
-                    ? result.cursor
-                    : undefined;
-
-            } while (cursor);
-
-            return jsonResponse({
-                success: true,
-                prefix,
-                count: objects.length,
-                objects
-            });
-
-        } catch (error) {
-            console.error("Error consultando R2:", error);
-
-            return jsonResponse(
-                {
-                    error: "No se pudieron consultar los archivos de R2"
-                },
-                500
-            );
+                return jsonResponse(
+                    {
+                        error:
+                            "No se pudieron consultar los archivos de R2"
+                    },
+                    500
+                );
+            }
         }
+
+        /*
+         * 2. Cualquier otra petición
+         * → sirve nuestra página de WAWA.
+         */
+        return env.ASSETS.fetch(request);
     }
 };
