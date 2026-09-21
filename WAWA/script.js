@@ -12,8 +12,7 @@ const R2_BASE_URL =
 
 const R2_FOLDER = "FOTOS Y VIDIOS";
 
-const R2_LIST_ENDPOINT =
-    "https://TU-WORKER.workers.dev";
+const R2_LIST_ENDPOINT = "https://sorprais.nicolearias875.workers.dev";
 
 const AUTO_SLIDE_TIME = 3000;
 
