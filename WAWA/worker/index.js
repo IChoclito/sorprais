@@ -19,15 +19,31 @@ function jsonResponse(data, status = 200) {
     });
 }
 
+function getContentType(key) {
+    const extension = key.split(".").pop()?.toLowerCase();
+
+    const types = {
+        jpg: "image/jpeg",
+        jpeg: "image/jpeg",
+        png: "image/png",
+        webp: "image/webp",
+        gif: "image/gif",
+        avif: "image/avif",
+        mp4: "video/mp4",
+        webm: "video/webm",
+        mov: "video/quicktime"
+    };
+
+    return types[extension] || "application/octet-stream";
+}
+
 export default {
     async fetch(request, env) {
         const url = new URL(request.url);
 
-        /*
-         * 1. Consultas a R2
-         * Ejemplo:
-         * ?prefix=FOTOS%20Y%20VIDIOS%2FANTES%20DE%2FAyacucho%2F
-         */
+        // =========================
+        // LISTAR ARCHIVOS DE R2
+        // =========================
         const prefix = url.searchParams.get("prefix");
 
         if (prefix) {
@@ -95,10 +111,7 @@ export default {
                 });
 
             } catch (error) {
-                console.error(
-                    "Error consultando R2:",
-                    error
-                );
+                console.error("Error consultando R2:", error);
 
                 return jsonResponse(
                     {
@@ -110,10 +123,63 @@ export default {
             }
         }
 
-        /*
-         * 2. Cualquier otra petición
-         * → sirve nuestra página de WAWA.
-         */
+        // =========================
+        // SERVIR ARCHIVOS DE R2
+        // =========================
+        const requestedKey = decodeURIComponent(
+            url.pathname.slice(1)
+        );
+
+        if (
+            requestedKey.startsWith("FOTOS Y VIDIOS/ANTES DE/") ||
+            requestedKey.startsWith("FOTOS Y VIDIOS/meses/")
+        ) {
+            try {
+                const object =
+                    await env.SORPRAISSS_BUCKET.get(requestedKey);
+
+                if (!object) {
+                    return new Response("Archivo no encontrado", {
+                        status: 404,
+                        headers: CORS_HEADERS
+                    });
+                }
+
+                const headers = new Headers(CORS_HEADERS);
+
+                headers.set(
+                    "Content-Type",
+                    object.httpMetadata?.contentType ||
+                    getContentType(requestedKey)
+                );
+
+                headers.set("Cache-Control", "public, max-age=31536000");
+
+                if (object.httpEtag) {
+                    headers.set("ETag", object.httpEtag);
+                }
+
+                return new Response(object.body, {
+                    status: 200,
+                    headers
+                });
+
+            } catch (error) {
+                console.error("Error sirviendo archivo R2:", error);
+
+                return new Response(
+                    "Error al obtener el archivo",
+                    {
+                        status: 500,
+                        headers: CORS_HEADERS
+                    }
+                );
+            }
+        }
+
+        // =========================
+        // SERVIR LA WEB
+        // =========================
         return env.ASSETS.fetch(request);
     }
 };
