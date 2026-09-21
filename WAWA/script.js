@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ========================================== */
 
 const R2_BASE_URL =
-    "https://pub-87e98aa71f684d1598882d2da16b74eb.r2.dev";
+    "https://sorprais.nicolearias875.workers.dev";
 
 const R2_FOLDER = "FOTOS Y VIDIOS";
 
