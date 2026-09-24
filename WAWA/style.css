@@ -572,49 +572,28 @@ p {
 ========================================= */
 
 .origin-timeline {
-
     position: relative;
-
-    width: min(100%, 800px);
-
+    width: min(1180px, 100%);
+    margin: 0 auto;
+    padding: 40px 0 80px;
 }
 
 .origin-timeline::before {
-
     content: "";
-
     position: absolute;
-
     top: 0;
     bottom: 0;
-
     left: 50%;
-
-    width: 1px;
-
-    background:
-        linear-gradient(
-            to bottom,
-            transparent,
-            var(--brown),
-            transparent
-        );
-
-    transform:
-        translateX(-50%);
-
+    width: 2px;
+    transform: translateX(-50%);
+    background: rgba(255, 91, 91, 0.18);
+    pointer-events: none;
 }
 
 .origin-item {
-
     position: relative;
-
     width: 100%;
-
-    display: flex;
-
-    margin-bottom: 80px;
-
+    margin-bottom: 90px;
 }
 
 .origin-item:nth-child(odd) {
@@ -1954,5 +1933,683 @@ p {
             auto !important;
 
     }
+}
 
+/* =========================================================
+   CORRECCIÓN FINAL — TIMELINE "CÓMO EMPEZÓ TODO"
+   =========================================================
+   - La línea queda siempre fuera del contenido.
+   - El carrusel ocupa únicamente su columna.
+   - Los puntos quedan debajo de la imagen.
+   - Las imágenes conservan su proporción.
+   - En móvil se reduce el tamaño de flechas y se separan
+     correctamente la línea, el texto y los puntos.
+*/
+
+/* -------------------------
+   TIMELINE DESKTOP
+------------------------- */
+
+.origin-timeline {
+    position: relative;
+    width: min(1100px, 92%);
+    margin: 0 auto;
+    padding: 40px 0 80px;
+}
+
+.origin-timeline::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.12);
+    pointer-events: none;
+}
+
+.origin-item {
+    position: relative;
+    width: 100%;
+    margin: 0;
+    padding: 45px 0;
+}
+
+.origin-item::before {
+    content: "";
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: var(--red);
+    border: 2px solid var(--black-3);
+    z-index: 20;
+}
+
+/* -------------------------
+   TARJETA
+------------------------- */
+
+.origin-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 100px;
+    width: 100%;
+    min-height: 400px;
+    padding: 0;
+    align-items: start;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+/* Texto izquierdo */
+.origin-card > .chapter-label,
+.origin-card > h3,
+.origin-card > p {
+    grid-column: 1;
+    min-width: 0;
+    max-width: 500px;
+}
+
+.origin-card > .chapter-label {
+    grid-row: 1;
+    margin-bottom: 10px;
+}
+
+.origin-card > h3 {
+    grid-row: 2;
+    margin: 0 0 14px;
+}
+
+.origin-card > p {
+    grid-row: 3;
+    margin: 0;
+}
+
+/* Momentos pares: texto derecha */
+.origin-item:nth-child(even) .origin-card > .chapter-label,
+.origin-item:nth-child(even) .origin-card > h3,
+.origin-item:nth-child(even) .origin-card > p {
+    grid-column: 2;
+    justify-self: end;
+    text-align: right;
+}
+
+/* -------------------------
+   CARRUSEL
+------------------------- */
+
+.origin-card > .origin-carousel {
+    grid-column: 2;
+    grid-row: 1 / 4;
+
+    width: 100%;
+    max-width: 500px;
+    min-width: 0;
+
+    height: auto;
+    min-height: 0;
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    background: transparent;
+    border: none;
+    box-shadow: none;
+
+    /* IMPORTANTE: no cortar los puntos inferiores */
+    overflow: visible;
+}
+
+/* Pares: carrusel izquierda */
+.origin-item:nth-child(even) .origin-card > .origin-carousel {
+    grid-column: 1;
+    grid-row: 1 / 4;
+    justify-self: center;
+}
+
+/* -------------------------
+   ÁREA DE IMAGEN
+------------------------- */
+
+.origin-carousel-viewport {
+    position: relative;
+
+    width: 100%;
+    height: 360px;
+    min-height: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+/* -------------------------
+   IMAGEN — SIN DEFORMAR
+------------------------- */
+
+.origin-carousel-image {
+    display: block;
+
+    width: auto !important;
+    height: auto !important;
+
+    max-width: 100%;
+    max-height: 340px;
+
+    object-fit: contain;
+    object-position: center;
+
+    margin: 0 auto;
+
+    border: none;
+    border-radius: 14px;
+    background: transparent;
+
+    opacity: 1;
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+}
+
+/* Vertical */
+.origin-carousel-image.is-vertical {
+    width: auto !important;
+    height: auto !important;
+    max-width: 300px;
+    max-height: 340px;
+}
+
+/* Horizontal */
+.origin-carousel-image.is-horizontal {
+    width: auto !important;
+    height: auto !important;
+    max-width: 500px;
+    max-height: 300px;
+}
+
+/* Cuadrada */
+.origin-carousel-image.is-square {
+    width: auto !important;
+    height: auto !important;
+    max-width: 320px;
+    max-height: 320px;
+}
+
+.origin-carousel-image.changing {
+    opacity: 0;
+    transform: scale(0.97);
+}
+
+/* -------------------------
+   FLECHAS
+------------------------- */
+
+.origin-carousel-arrow {
+    position: absolute;
+    top: 50%;
+
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transform: translateY(-50%);
+
+    z-index: 10;
+
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 50%;
+
+    background: rgba(20,17,16,0.72);
+    color: white;
+
+    font-size: 20px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.origin-carousel-arrow:hover {
+    background: rgba(20,17,16,0.95);
+    transform:
+        translateY(-50%)
+        scale(1.06);
+}
+
+.origin-carousel-prev {
+    left: 8px;
+}
+
+.origin-carousel-next {
+    right: 8px;
+}
+
+/* -------------------------
+   PUNTOS — SIEMPRE DEBAJO
+------------------------- */
+
+.origin-carousel-dots {
+    position: static !important;
+
+    width: 100%;
+    min-height: 18px;
+    height: auto;
+
+    margin: 10px 0 0;
+    padding: 0;
+
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+    flex-shrink: 0;
+
+    overflow: visible;
+}
+
+.origin-carousel-dot {
+    position: static;
+    flex: 0 0 auto;
+
+    width: 7px;
+    height: 7px;
+
+    padding: 0;
+    margin: 0;
+
+    border: none;
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.28);
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+.origin-carousel-dot:hover {
+    background: rgba(255,255,255,0.55);
+    transform: scale(1.1);
+}
+
+.origin-carousel-dot.active {
+    width: 20px;
+    height: 7px;
+    border-radius: 6px;
+    background: var(--red);
+    transform: none;
+}
+
+/* Sin fotos */
+.origin-carousel-empty {
+    min-height: 180px;
+}
+
+.origin-carousel-empty .origin-carousel-viewport {
+    height: 180px;
+    min-height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.origin-carousel-empty .origin-carousel-image {
+    display: none;
+}
+
+/* =========================================================
+   MÓVIL
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+    .origin-timeline {
+        width: 100%;
+        padding: 25px 0 60px 34px;
+    }
+
+    /* Línea lateral */
+    .origin-timeline::before {
+        left: 9px;
+        transform: none;
+    }
+
+    .origin-item {
+        padding: 24px 0 42px;
+        margin: 0;
+    }
+
+    /* Punto: pequeño y separado del texto */
+    .origin-item::before {
+        left: 9px;
+        top: 29px;
+
+        width: 8px;
+        height: 8px;
+
+        transform: translateX(-50%);
+        border-width: 2px;
+    }
+
+    /* Todo vertical */
+    .origin-card,
+    .origin-item:nth-child(even) .origin-card {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+
+        width: 100%;
+        min-height: 0;
+        padding: 0;
+    }
+
+    .origin-card > .chapter-label,
+    .origin-card > h3,
+    .origin-card > p,
+    .origin-item:nth-child(even) .origin-card > .chapter-label,
+    .origin-item:nth-child(even) .origin-card > h3,
+    .origin-item:nth-child(even) .origin-card > p {
+        width: 100%;
+        max-width: none;
+
+        text-align: left;
+        justify-self: stretch;
+
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    .origin-card > .chapter-label {
+        margin: 0 0 8px;
+    }
+
+    .origin-card > h3 {
+        margin: 0 0 12px;
+    }
+
+    .origin-card > p {
+        margin: 0;
+    }
+
+    /* Carrusel */
+    .origin-card > .origin-carousel,
+    .origin-item:nth-child(even) .origin-card > .origin-carousel {
+        order: 4;
+
+        width: 100%;
+        max-width: 100%;
+
+        height: auto;
+        min-height: 0;
+
+        margin: 18px 0 0;
+
+        grid-column: auto;
+        grid-row: auto;
+
+        overflow: visible;
+    }
+
+    .origin-carousel-viewport {
+        width: 100%;
+        height: 280px;
+        min-height: 0;
+
+        overflow: hidden;
+    }
+
+    /* Imágenes */
+    .origin-carousel-image {
+        max-width: 100%;
+        max-height: 260px;
+    }
+
+    .origin-carousel-image.is-vertical {
+        max-width: 220px;
+        max-height: 260px;
+    }
+
+    .origin-carousel-image.is-horizontal {
+        max-width: 100%;
+        max-height: 240px;
+    }
+
+    .origin-carousel-image.is-square {
+        max-width: 240px;
+        max-height: 240px;
+    }
+
+    /* Flechas más pequeñas */
+    .origin-carousel-arrow {
+        width: 28px;
+        height: 28px;
+        font-size: 16px;
+    }
+
+    .origin-carousel-prev {
+        left: 6px;
+    }
+
+    .origin-carousel-next {
+        right: 6px;
+    }
+
+    /* Puntos: separados de imagen y texto */
+    .origin-carousel-dots {
+        width: 100%;
+        min-height: 16px;
+        margin: 9px 0 0;
+        gap: 5px;
+    }
+
+    .origin-carousel-dot {
+        width: 6px;
+        height: 6px;
+    }
+
+    .origin-carousel-dot.active {
+        width: 17px;
+        height: 6px;
+    }
+}
+
+/* =========================================================
+   TELÉFONOS PEQUEÑOS
+   ========================================================= */
+
+@media (max-width: 400px) {
+
+    .origin-timeline {
+        padding-left: 30px;
+    }
+
+    .origin-item {
+        padding-top: 22px;
+        padding-bottom: 38px;
+    }
+
+    .origin-item::before {
+        left: 9px;
+        top: 27px;
+        width: 7px;
+        height: 7px;
+    }
+
+    .origin-carousel-viewport {
+        height: 245px;
+    }
+
+    .origin-carousel-image {
+        max-height: 225px;
+    }
+
+    .origin-carousel-image.is-vertical {
+        max-width: 195px;
+        max-height: 225px;
+    }
+
+    .origin-carousel-image.is-horizontal {
+        max-width: 100%;
+        max-height: 215px;
+    }
+
+    .origin-carousel-image.is-square {
+        max-width: 215px;
+        max-height: 215px;
+    }
+
+    .origin-carousel-arrow {
+        width: 26px;
+        height: 26px;
+        font-size: 15px;
+    }
+
+    .origin-carousel-prev {
+        left: 5px;
+    }
+
+    .origin-carousel-next {
+        right: 5px;
+    }
+
+    .origin-carousel-dots {
+        margin-top: 8px;
+        gap: 4px;
+    }
+
+    .origin-carousel-dot {
+        width: 5px;
+        height: 5px;
+    }
+
+    .origin-carousel-dot.active {
+        width: 15px;
+        height: 5px;
+    }
+}
+
+
+/* =========================================================
+   AJUSTE FINAL — PUNTO DE TIMELINE EN MÓVIL
+   ========================================================= */
+
+/*
+   El CSS original ya utiliza ::after para dibujar el punto.
+   La corrección anterior añadía además ::before, por lo que
+   en móvil podían aparecer dos puntos y uno quedaba pegado
+   a la fecha/texto.
+*/
+
+.origin-item::before {
+    content: none;
+    display: none;
+}
+
+.origin-item::after {
+    content: "" !important;
+    position: absolute !important;
+
+    left: 50% !important;
+    top: 70px !important;
+
+    width: 10px !important;
+    height: 10px !important;
+
+    transform: translateX(-50%) !important;
+
+    display: block !important;
+    box-sizing: border-box !important;
+
+    border-radius: 50% !important;
+    border: 2px solid var(--black) !important;
+    background: var(--red) !important;
+
+    z-index: 30 !important;
+}
+
+@media (max-width: 800px) {
+
+    .origin-timeline {
+        box-sizing: border-box;
+        padding-left: 34px !important;
+    }
+
+    /* La línea y el punto usan exactamente la misma posición. */
+    .origin-timeline::before {
+        left: 9px !important;
+        transform: none !important;
+    }
+
+    .origin-item {
+        padding-left: 0 !important;
+    }
+
+    .origin-item::before {
+        content: none !important;
+        display: none !important;
+    }
+
+    /*
+       El item empieza después del padding izquierdo del timeline.
+       Por eso el punto debe desplazarse hacia atrás para caer
+       exactamente sobre la línea, no sobre la fecha.
+    */
+    .origin-item::after {
+        left: -25px !important;
+        top: 29px !important;
+
+        width: 9px !important;
+        height: 9px !important;
+
+        transform: none !important;
+
+        border-width: 2px !important;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .origin-timeline {
+        padding-left: 30px !important;
+    }
+
+    .origin-timeline::before {
+        left: 9px !important;
+    }
+
+    .origin-item::after {
+        left: -21px !important;
+        top: 27px !important;
+
+        width: 8px !important;
+        height: 8px !important;
+    }
 }
