@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const R2_FOLDER =
         "FOTOS Y VIDIOS";
 
-    const AUTO_SLIDE_TIME = 3000;
+    const AUTO_SLIDE_TIME = 5000; /* 5 SEGUNDOS PARA IMÁGENES */
 
 
     /* =========================================================
@@ -84,13 +84,13 @@ document.addEventListener("DOMContentLoaded", () => {
             return [];
         }
 
-        const imageExtensions =
-            /\.(jpg|jpeg|png|webp|gif|avif)$/i;
+        const mediaExtensions =
+            /\.(jpg|jpeg|png|webp|gif|avif|mp4|webm|ogg|mov|m4v)$/i;
 
         return data.objects
             .map(object => object.key)
             .filter(key =>
-                imageExtensions.test(key)
+                mediaExtensions.test(key)
             )
             .map(key =>
                 key.replace(
@@ -115,17 +115,32 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("logoHome");
 
 
-    /* MÚSICA */
+    /* =========================================================
+       MÚSICA EN LOOP (SISTEMA CORREGIDO)
+    ========================================================= */
 
-    const musicToggle =
-        document.getElementById("musicToggle");
+    const MUSIC_SOURCE = "https://pub-87e98aa71f684d1598882d2da16b74eb.r2.dev/FOTOS%20Y%20VIDIOS/lisa%20ono%20-%20contigo%20en%20la%20distancia%20(instrumental).mp3"; 
 
-    const musicTip =
-        document.getElementById("musicTip");
+    if (musicToggle && backgroundMusic) {
+        /* Carga la fuente de audio correctamente */
+        backgroundMusic.src = mediaUrl(MUSIC_SOURCE);
+        backgroundMusic.loop = true;
 
-    const backgroundMusic =
-        document.getElementById("backgroundMusic");
-
+        musicToggle.addEventListener("click", async () => {
+            /* Consultamos el estado real del elemento  */
+            if (backgroundMusic.paused) {
+                try {
+                    await backgroundMusic.play();
+                    musicToggle.classList.add("playing"); /* Borde naranja */
+                } catch (error) {
+                    console.error("Error al reproducir el audio. Verifica la URL de Cloudflare:", error);
+                }
+            } else {
+                backgroundMusic.pause();
+                musicToggle.classList.remove("playing"); /* Quita borde naranja */
+            }
+        });
+    }
 
     /* HOME */
 
@@ -253,6 +268,13 @@ document.addEventListener("DOMContentLoaded", () => {
         if (mainNav) {
             mainNav.style.display = "flex";
         }
+
+        /* Pausa carrusel de meses si cambiamos de pantalla */
+        if (screenId !== "months") {
+            stopMonthAuto();
+        } else {
+            startMonthAuto();
+        }
     }
 
 
@@ -341,7 +363,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =========================================================
-       CÓMO EMPEZÓ TODO
+       CÓMO EMPEZÓ TODO (HISTORIA ORIGEN)
     ========================================================= */
 
     const originMoments = [
@@ -473,7 +495,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "2024",
 
             description:
-                "Empezamos en la cancha de la universidad jugando y molestándonos, pero terminamos hablando de cosas mucho más personales. Sentí que el tiempo se detuvo. Solo éramos tú y yo, intentando bailar una especie de salsa-vals, y hubo un momento en que estuvimos tan cerca que no supe qué hacer. Nunca había experimentado algo así con nadie y, sobre todo, no quería sobrepensarlo. Perdimos tanto la noción del tiempo que ni nos dimos cuenta de que ya eran casi las 11pm. Eso último no salió tan bien porque los de seguridad terminaron acompañándonos hasta el paradero jdjd Pero me encanta recordar ese día. Esa mezcla de confusión, fragilidad y afecto me reveló aquello a lo que tanto le tenía miedo, pero que al mismo tiempo me hizo sentir tan viva",
+                "Empezamos en la cancha de la universidad jugando y molestándonos, pero terminamos hablando de cosas mucho más personales. Sentí que el tiempo se detuvo. Solo éramos tú y yo, intentando bailar una especie de salsa-vals, y hubo un momento en que estuvimos tan cerca que no supe qué hacer. Nunca había experimentado algo así con nadie y, sobre todo, no quería sobrepensarlo. Perdimos tanto la noción del tiempo que ni nos dijimos cuenta de que ya eran casi las 11pm. Eso último no salió tan bien porque los de seguridad terminaron acompañándonos hasta el paradero jdjd Pero me encanta recordar ese día. Esa mezcla de confusión, fragilidad y afecto me reveló aquello a lo que tanto le tenía miedo, pero que al mismo tiempo me hizo sentir tan viva",
 
             folder:
                 "ANTES DE/Esa noche"
@@ -543,14 +565,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =========================================================
-       ESTADOS DE CARRUSELES
+       ESTADOS DE CARRUSELES ORIGEN
     ========================================================= */
 
     const originCarouselStates = [];
 
 
     /* =========================================================
-       CREAR CARRUSEL
+       CREAR CARRUSEL DE ORIGEN
     ========================================================= */
 
     function createOriginCarousel(
@@ -558,1111 +580,441 @@ document.addEventListener("DOMContentLoaded", () => {
         momentIndex
     ) {
 
-        const wrapper =
-            document.createElement("div");
+        const wrapper = document.createElement("div");
+        wrapper.className = "origin-carousel";
 
-        wrapper.className =
-            "origin-carousel";
+        const viewport = document.createElement("div");
+        viewport.className = "origin-carousel-viewport";
+        viewport.style.display = "flex";
+        viewport.style.alignItems = "center";
+        viewport.style.justifyContent = "center";
+        viewport.style.overflow = "hidden";
 
+        const image = document.createElement("img");
+        image.className = "origin-carousel-image";
+        image.alt = moment.title || "Foto";
+        image.loading = "lazy";
+        image.style.maxWidth = "100%";
+        image.style.maxHeight = "100%";
+        image.style.width = "auto";
+        image.style.height = "auto";
+        image.style.objectFit = "contain";
+        image.style.margin = "auto";
 
-        const viewport =
-            document.createElement("div");
+        const video = document.createElement("video");
+        video.className = "origin-carousel-video";
+        video.muted = true;
+        video.autoplay = true;
+        video.loop = false;
+        video.playsInline = true;
+        video.setAttribute("muted", "");
+        video.setAttribute("playsinline", "");
+        video.preload = "metadata";
 
-        viewport.className =
-            "origin-carousel-viewport";
-
-
-        const image =
-            document.createElement("img");
-
-        image.className =
-            "origin-carousel-image";
-
-        image.alt =
-            moment.title || "Foto";
-
-        image.loading =
-            "lazy";
-
+        video.style.maxWidth = "100%";
+        video.style.maxHeight = "100%";
+        video.style.width = "auto";
+        video.style.height = "auto";
+        video.style.objectFit = "contain";
+        video.style.margin = "auto";
+        video.style.borderRadius = "10px";
+        video.style.display = "none";
 
         viewport.appendChild(image);
+        viewport.appendChild(video);
 
+        const previousButton = document.createElement("button");
+        previousButton.type = "button";
+        previousButton.className = "origin-carousel-arrow origin-carousel-prev";
+        previousButton.textContent = "‹";
+        previousButton.setAttribute("aria-label", "Foto anterior");
 
-        const previousButton =
-            document.createElement("button");
+        const nextButton = document.createElement("button");
+        nextButton.type = "button";
+        nextButton.className = "origin-carousel-arrow origin-carousel-next";
+        nextButton.textContent = "›";
+        nextButton.setAttribute("aria-label", "Foto siguiente");
 
-        previousButton.type =
-            "button";
+        const dots = document.createElement("div");
+        dots.className = "origin-carousel-dots";
 
-        previousButton.className =
-            "origin-carousel-arrow origin-carousel-prev";
-
-        previousButton.textContent =
-            "‹";
-
-        previousButton.setAttribute(
-            "aria-label",
-            "Foto anterior"
-        );
-
-
-        const nextButton =
-            document.createElement("button");
-
-        nextButton.type =
-            "button";
-
-        nextButton.className =
-            "origin-carousel-arrow origin-carousel-next";
-
-        nextButton.textContent =
-            "›";
-
-        nextButton.setAttribute(
-            "aria-label",
-            "Foto siguiente"
-        );
-
-
-        const dots =
-            document.createElement("div");
-
-        dots.className =
-            "origin-carousel-dots";
-
-
-        wrapper.append(
-            previousButton,
-            viewport,
-            nextButton,
-            dots
-        );
-
-
-        /* =====================================================
-           ESTADO
-        ===================================================== */
+        wrapper.append(previousButton, viewport, nextButton, dots);
 
         const state = {
-
             photos: [],
-
             index: 0,
-
             interval: null,
-
-            /* NUEVO:
-               indica si esta historia es la que
-               actualmente está viendo el usuario.
-            */
-
             isActive: false,
 
-
             render() {
-
+                state.stopAuto();
                 dots.innerHTML = "";
 
-
                 if (!state.photos.length) {
-
-                    image.removeAttribute(
-                        "src"
-                    );
-
-                    image.alt =
-                        "No hay fotos todavía";
-
-                    image.classList.remove(
-                        "is-vertical",
-                        "is-horizontal"
-                    );
-
-                    wrapper.classList.add(
-                        "origin-carousel-empty"
-                    );
-
-                    previousButton.style.display =
-                        "none";
-
-                    nextButton.style.display =
-                        "none";
-
+                    image.removeAttribute("src");
+                    image.alt = "No hay fotos todavía";
+                    wrapper.classList.add("origin-carousel-empty");
+                    previousButton.style.display = "none";
+                    nextButton.style.display = "none";
                     return;
                 }
 
+                wrapper.classList.remove("origin-carousel-empty");
+                const total = state.photos.length;
 
-                wrapper.classList.remove(
-                    "origin-carousel-empty"
-                );
+                if (state.index >= total) state.index = total - 1;
+                if (state.index < 0) state.index = 0;
 
+                const media = state.photos[state.index];
+                const isVideo = /\.(mp4|webm|ogg|mov|m4v)$/i.test(media);
 
-                const total =
-                    state.photos.length;
+                if (isVideo) {
+                    image.style.display = "none";
+                    video.style.display = "block";
+                    video.pause();
+                    video.removeAttribute("src");
+                    video.currentTime = 0;
+                    video.src = mediaUrl(media);
+                    video.load();
 
+                    video.onloadedmetadata = () => {
+                        if (state.isActive) {
+                            video.play().catch(() => {});
+                        }
+                    };
 
-                if (state.index >= total) {
+                    video.onended = () => {
+                        if (!state.isActive) return;
+                        state.next();
+                    };
+                } else {
+                    video.pause();
+                    video.onended = null;
+                    video.removeAttribute("src");
+                    video.style.display = "none";
 
-                    state.index =
-                        total - 1;
-
+                    image.style.display = "block";
+                    image.src = mediaUrl(media);
+                    image.alt = `${moment.title} - foto ${state.index + 1}`;
                 }
 
-
-                if (state.index < 0) {
-
-                    state.index = 0;
-
+                if (state.isActive) {
+                    state.startAuto();
                 }
-
-
-                image.classList.add(
-                    "changing"
-                );
-
-
-                /*
-                   Detectamos automáticamente si la imagen
-                   es vertical u horizontal.
-                */
-
-                image.onload = () => {
-
-                    image.classList.remove(
-                        "is-vertical",
-                        "is-horizontal"
-                    );
-
-
-                    if (
-                        image.naturalHeight >
-                        image.naturalWidth
-                    ) {
-
-                        image.classList.add(
-                            "is-vertical"
-                        );
-
-                    } else {
-
-                        image.classList.add(
-                            "is-horizontal"
-                        );
-
-                    }
-
-
-                    image.classList.remove(
-                        "changing"
-                    );
-
-                };
-
-
-                image.src =
-                    mediaUrl(
-                        state.photos[
-                            state.index
-                        ]
-                    );
-
-
-                image.alt =
-                    `${moment.title} - foto ${state.index + 1}`;
-
-
-                /* PUNTOS */
 
                 if (total <= 15) {
-
-                    state.photos.forEach(
-                        (_, index) => {
-
-                            const dot =
-                                document.createElement(
-                                    "button"
-                                );
-
-                            dot.type =
-                                "button";
-
-                            dot.className =
-                                "origin-carousel-dot";
-
-
-                            if (
-                                index ===
-                                state.index
-                            ) {
-
-                                dot.classList.add(
-                                    "active"
-                                );
-
-                            }
-
-
-                            dot.setAttribute(
-                                "aria-label",
-                                `Ir a la foto ${index + 1}`
-                            );
-
-
-                            dot.addEventListener(
-                                "click",
-                                () => {
-
-                                    state.index =
-                                        index;
-
-                                    state.render();
-
-                                    state.restartAuto();
-
-                                }
-                            );
-
-
-                            dots.appendChild(
-                                dot
-                            );
-
-                        }
-                    );
-
+                    state.photos.forEach((_, index) => {
+                        const dot = document.createElement("button");
+                        dot.type = "button";
+                        dot.className = "origin-carousel-dot";
+                        if (index === state.index) dot.classList.add("active");
+                        dot.setAttribute("aria-label", `Ir a la foto ${index + 1}`);
+                        dot.addEventListener("click", () => {
+                            state.index = index;
+                            state.render();
+                        });
+                        dots.appendChild(dot);
+                    });
                 }
 
-
-                previousButton.style.display =
-                    total > 1
-                        ? "flex"
-                        : "none";
-
-                nextButton.style.display =
-                    total > 1
-                        ? "flex"
-                        : "none";
-
+                previousButton.style.display = total > 1 ? "flex" : "none";
+                nextButton.style.display = total > 1 ? "flex" : "none";
             },
-
 
             next() {
-
-                if (
-                    !state.photos.length
-                ) {
-                    return;
-                }
-
-
-                state.index =
-                    (
-                        state.index + 1
-                    ) %
-                    state.photos.length;
-
-
+                if (!state.photos.length) return;
+                state.index = (state.index + 1) % state.photos.length;
                 state.render();
-
             },
-
 
             previous() {
-
-                if (
-                    !state.photos.length
-                ) {
-                    return;
-                }
-
-
-                state.index =
-                    (
-                        state.index -
-                        1 +
-                        state.photos.length
-                    ) %
-                    state.photos.length;
-
-
+                if (!state.photos.length) return;
+                state.index = (state.index - 1 + state.photos.length) % state.photos.length;
                 state.render();
-
             },
-
-
-            /* =================================================
-               INICIO AUTOMÁTICO
-            ================================================= */
 
             startAuto() {
-
                 state.stopAuto();
+                if (!state.isActive || state.photos.length <= 1) return;
 
+                const media = state.photos[state.index];
+                const isVideo = /\.(mp4|webm|ogg|mov|m4v)$/i.test(media);
 
-                /*
-                   IMPORTANTE:
-
-                   Si esta historia no está visible,
-                   el carrusel NO se mueve.
-                */
-
-                if (
-                    !state.isActive ||
-                    state.photos.length <= 1
-                ) {
-
+                if (isVideo) {
+                    if (video.paused && video.readyState >= 2) {
+                        video.play().catch(() => {});
+                    }
                     return;
-
                 }
 
-
-                state.interval =
-                    setInterval(() => {
-
-                        state.next();
-
-                    }, AUTO_SLIDE_TIME);
-
+                state.interval = setInterval(() => {
+                    state.next();
+                }, AUTO_SLIDE_TIME);
             },
-
-
-            /* =================================================
-               DETENER AUTOMÁTICO
-            ================================================= */
 
             stopAuto() {
-
-                if (
-                    state.interval
-                ) {
-
-                    clearInterval(
-                        state.interval
-                    );
-
-                    state.interval =
-                        null;
-
+                if (state.interval) {
+                    clearInterval(state.interval);
+                    state.interval = null;
                 }
-
+                if (video && !video.paused) {
+                    video.pause();
+                }
             },
-
 
             restartAuto() {
-
                 state.startAuto();
-
             }
-
         };
 
+        previousButton.addEventListener("click", () => state.previous());
+        nextButton.addEventListener("click", () => state.next());
 
-        /* =====================================================
-           BOTONES
-        ===================================================== */
-
-        previousButton.addEventListener(
-            "click",
-            () => {
-
-                state.previous();
-
-                state.restartAuto();
-
-            }
-        );
-
-
-        nextButton.addEventListener(
-            "click",
-            () => {
-
-                state.next();
-
-                state.restartAuto();
-
-            }
-        );
-
-
-        /* =====================================================
-           MOUSE
-        ===================================================== */
-
-        wrapper.addEventListener(
-            "mouseenter",
-            () => {
-
-                state.stopAuto();
-
-            }
-        );
-
-
-        wrapper.addEventListener(
-            "mouseleave",
-            () => {
-
-                state.startAuto();
-
-            }
-        );
-
-
-        /* =====================================================
-           SWIPE
-        ===================================================== */
+        wrapper.addEventListener("mouseenter", () => state.stopAuto());
+        wrapper.addEventListener("mouseleave", () => state.startAuto());
 
         let touchStartX = 0;
+        viewport.addEventListener("touchstart", event => {
+            if (event.touches.length) touchStartX = event.touches[0].clientX;
+        }, { passive: true });
 
+        viewport.addEventListener("touchend", event => {
+            if (!event.changedTouches.length) return;
+            const touchEndX = event.changedTouches[0].clientX;
+            const difference = touchStartX - touchEndX;
 
-        viewport.addEventListener(
-            "touchstart",
-            event => {
-
-                if (
-                    event.touches.length
-                ) {
-
-                    touchStartX =
-                        event.touches[
-                            0
-                        ].clientX;
-
-                }
-
-            },
-            {
-                passive: true
-            }
-        );
-
-
-        viewport.addEventListener(
-            "touchend",
-            event => {
-
-                if (
-                    !event.changedTouches.length
-                ) {
-                    return;
-                }
-
-
-                const touchEndX =
-                    event.changedTouches[
-                        0
-                    ].clientX;
-
-
-                const difference =
-                    touchStartX -
-                    touchEndX;
-
-
-                if (
-                    Math.abs(difference) < 40
-                ) {
-
-                    return;
-
-                }
-
-
-                if (
-                    difference > 0
-                ) {
-
-                    state.next();
-
-                } else {
-
-                    state.previous();
-
-                }
-
-
-                state.restartAuto();
-
-            },
-            {
-                passive: true
-            }
-        );
-
-
-        /* =====================================================
-           INICIAL
-        ===================================================== */
+            if (Math.abs(difference) < 40) return;
+            if (difference > 0) state.next();
+            else state.previous();
+        }, { passive: true });
 
         state.render();
-
-
-        originCarouselStates[
-            momentIndex
-        ] = state;
-
-
+        originCarouselStates[momentIndex] = state;
         return wrapper;
     }
 
 
     /* =========================================================
-       RENDERIZAR HISTORIA
+       RENDERIZAR ORIGEN
     ========================================================= */
 
     function renderOriginTimeline() {
+        if (!originTimeline) return;
+        originTimeline.innerHTML = "";
 
-        if (!originTimeline) {
-            return;
-        }
+        originMoments.forEach((moment, index) => {
+            const item = document.createElement("article");
+            item.className = "origin-item";
 
+            const card = document.createElement("div");
+            card.className = "origin-card";
 
-        originTimeline.innerHTML =
-            "";
+            const date = document.createElement("span");
+            date.className = "chapter-label";
+            date.textContent = moment.date;
 
+            const title = document.createElement("h3");
+            title.textContent = moment.title;
 
-        originMoments.forEach(
-            (moment, index) => {
+            const description = document.createElement("p");
+            description.textContent = moment.description;
 
-                const item =
-                    document.createElement(
-                        "article"
-                    );
-
-                item.className =
-                    "origin-item";
-
-
-                const card =
-                    document.createElement(
-                        "div"
-                    );
-
-                card.className =
-                    "origin-card";
-
-
-                const date =
-                    document.createElement(
-                        "span"
-                    );
-
-                date.className =
-                    "chapter-label";
-
-                date.textContent =
-                    moment.date;
-
-
-                const title =
-                    document.createElement(
-                        "h3"
-                    );
-
-                title.textContent =
-                    moment.title;
-
-
-                const description =
-                    document.createElement(
-                        "p"
-                    );
-
-                description.textContent =
-                    moment.description;
-
-
-                card.append(
-                    date,
-                    title,
-                    description,
-                    createOriginCarousel(
-                        moment,
-                        index
-                    )
-                );
-
-
-                item.appendChild(
-                    card
-                );
-
-
-                originTimeline.appendChild(
-                    item
-                );
-
-            }
-        );
-
+            card.append(date, title, description, createOriginCarousel(moment, index));
+            item.appendChild(card);
+            originTimeline.appendChild(item);
+        });
     }
 
-
-    /* =========================================================
-       CARGAR TODAS LAS FOTOS DEL ORIGEN
-    ========================================================= */
 
     async function loadOriginPhotos() {
-
         await Promise.all(
-
-            originMoments.map(
-                async (
-                    moment,
-                    index
-                ) => {
-
-                    try {
-
-                        const photos =
-                            await getR2Images(
-                                moment.folder
-                            );
-
-
-                        const state =
-                            originCarouselStates[
-                                index
-                            ];
-
-
-                        if (!state) {
-                            return;
-                        }
-
-
-                        state.photos =
-                            photos;
-
-
-                        state.index =
-                            0;
-
-
-                        state.render();
-
-
-                        /*
-                           NO iniciamos el carrusel aquí.
-
-                           El IntersectionObserver será quien
-                           decida cuándo debe comenzar.
-                        */
-
-
-                        console.log(
-                            `${moment.title}: ${photos.length} fotos encontradas`
-                        );
-
-                    } catch (error) {
-
-                        console.error(
-                            `Error cargando ${moment.folder}:`,
-                            error
-                        );
-
-                    }
-
+            originMoments.map(async (moment, index) => {
+                try {
+                    const photos = await getR2Images(moment.folder);
+                    const state = originCarouselStates[index];
+                    if (!state) return;
+                    state.photos = photos;
+                    state.index = 0;
+                    state.render();
+                } catch (error) {
+                    console.error(`Error cargando ${moment.folder}:`, error);
                 }
-            )
-
+            })
         );
-
     }
 
-
-    /* =========================================================
-       CONTROL DE CARRUSELES SEGÚN SCROLL
-    ========================================================= */
 
     function setupOriginCarouselObserver() {
-
-        const originItems =
-            document.querySelectorAll(
-                ".origin-item"
-            );
-
-
-        if (!originItems.length) {
-            return;
-        }
-
-
-        /*
-           Esta función busca cuál de las historias
-           está más visible en pantalla.
-        */
+        const originItems = document.querySelectorAll(".origin-item");
+        if (!originItems.length) return;
 
         function updateActiveCarousel() {
-
             let bestIndex = -1;
-
             let bestRatio = 0;
 
+            originItems.forEach((item, index) => {
+                const state = originCarouselStates[index];
+                if (!state) return;
 
-            originItems.forEach(
-                (item, index) => {
+                const rect = item.getBoundingClientRect();
+                const viewportHeight = window.innerHeight;
 
-                    const state =
-                        originCarouselStates[
-                            index
-                        ];
+                const visibleTop = Math.max(rect.top, 0);
+                const visibleBottom = Math.min(rect.bottom, viewportHeight);
+                const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+                const itemHeight = Math.max(1, rect.height);
+                const ratio = visibleHeight / itemHeight;
 
-
-                    if (!state) {
-                        return;
-                    }
-
-
-                    const rect =
-                        item.getBoundingClientRect();
-
-
-                    const viewportHeight =
-                        window.innerHeight;
-
-
-                    const visibleTop =
-                        Math.max(
-                            rect.top,
-                            0
-                        );
-
-
-                    const visibleBottom =
-                        Math.min(
-                            rect.bottom,
-                            viewportHeight
-                        );
-
-
-                    const visibleHeight =
-                        Math.max(
-                            0,
-                            visibleBottom -
-                            visibleTop
-                        );
-
-
-                    const itemHeight =
-                        Math.max(
-                            1,
-                            rect.height
-                        );
-
-
-                    const ratio =
-                        visibleHeight /
-                        itemHeight;
-
-
-                    if (
-                        ratio > bestRatio
-                    ) {
-
-                        bestRatio =
-                            ratio;
-
-                        bestIndex =
-                            index;
-
-                    }
-
+                if (ratio > bestRatio) {
+                    bestRatio = ratio;
+                    bestIndex = index;
                 }
-            );
+            });
 
+            if (bestIndex >= 0 && bestRatio >= 0.40) {
+                originItems.forEach((_, index) => {
+                    const state = originCarouselStates[index];
+                    if (!state) return;
 
-            /*
-               Solo activamos un carrusel cuando
-               la sección está suficientemente visible.
-            */
-
-            if (
-                bestIndex >= 0 &&
-                bestRatio >= 0.40
-            ) {
-
-                originItems.forEach(
-                    (_, index) => {
-
-                        const state =
-                            originCarouselStates[
-                                index
-                            ];
-
-
-                        if (!state) {
-                            return;
+                    if (index === bestIndex) {
+                        if (!state.isActive) {
+                            state.isActive = true;
+                            state.startAuto();
                         }
-
-
-                        if (
-                            index ===
-                            bestIndex
-                        ) {
-
-                            if (
-                                !state.isActive
-                            ) {
-
-                                state.isActive =
-                                    true;
-
-                                state.startAuto();
-
-                            }
-
-                        } else {
-
-                            state.isActive =
-                                false;
-
-                            state.stopAuto();
-
-                        }
-
-                    }
-                );
-
-            } else {
-
-                originCarouselStates.forEach(
-                    state => {
-
-                        if (!state) {
-                            return;
-                        }
-
-
-                        state.isActive =
-                            false;
-
+                    } else {
+                        state.isActive = false;
                         state.stopAuto();
-
                     }
-                );
-
+                });
+            } else {
+                originCarouselStates.forEach(state => {
+                    if (!state) return;
+                    state.isActive = false;
+                    state.stopAuto();
+                });
             }
-
         }
 
+        const observer = new IntersectionObserver(() => updateActiveCarousel(), {
+            threshold: [0, 0.25, 0.40, 0.60, 0.80]
+        });
 
-        /*
-           IntersectionObserver se usa para detectar
-           cuándo las historias entran o salen del viewport.
-        */
-
-        const observer =
-            new IntersectionObserver(
-                () => {
-
-                    updateActiveCarousel();
-
-                },
-                {
-                    threshold: [
-                        0,
-                        0.25,
-                        0.40,
-                        0.60,
-                        0.80
-                    ]
-                }
-            );
-
-
-        originItems.forEach(
-            item => {
-
-                observer.observe(
-                    item
-                );
-
-            }
-        );
-
-
-        /*
-           También actualizamos durante el scroll
-           para que el cambio entre historias sea suave.
-        */
+        originItems.forEach(item => observer.observe(item));
 
         let ticking = false;
-
-
-        window.addEventListener(
-            "scroll",
-            () => {
-
-                if (ticking) {
-                    return;
-                }
-
-
-                ticking = true;
-
-
-                requestAnimationFrame(
-                    () => {
-
-                        updateActiveCarousel();
-
-                        ticking = false;
-
-                    }
-                );
-
-            },
-            {
-                passive: true
-            }
-        );
-
-
-        /*
-           Primera comprobación.
-        */
+        window.addEventListener("scroll", () => {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(() => {
+                updateActiveCarousel();
+                ticking = false;
+            });
+        }, { passive: true });
 
         updateActiveCarousel();
-
     }
 
 
-    /*
-       IMPORTANTE:
-       primero creamos las historias,
-       luego conectamos el observador
-       y finalmente cargamos las fotos.
-    */
-
     renderOriginTimeline();
-
     setupOriginCarouselObserver();
-
     loadOriginPhotos();
 
 
     /* =========================================================
-       LOS 12 MESES
+       SECCIÓN: LOS 12 MESES
     ========================================================= */
 
     const months = [
-
         {
             number: "MES 01",
             title: "Octubre 2025",
             date: "Nuestro primer mes",
-            description:
-                "Aquí irá la historia de nuestro primer mes oficialmente juntos.",
+            description: "Jejej para nuestro primer mes, no nos fue nada mal. Decidimos ir a nuestro ritmo a como estábamos acostumbrados, y nos fue muy bien, me he dado cuenta que somos unos glotones (más yo); tenemos muchas fotos donde vamos a comer jdsjsd. Ah creo que ahi fue donde probamos ir en el tren por primera vez.. Deberiamos invitar a checho a comer makis de novo",
             folder: "meses/mes1"
         },
-
         {
             number: "MES 02",
             title: "Noviembre 2025",
             date: "Segundo mes",
-            description:
-                "Aquí irá lo que vivimos durante este mes.",
+            description: "Aqui fue cuando participamos en el canturobot (perdimos jsdjds) ah y despues de muchas regañadas de tu parte por fin te hice caso y me compré el colchón, ese dia en como lo llevaron me dio mucha risa parecian hormiguitas, no faltaban los SDCH y las salidas a lima d:",
             folder: "meses/mes2"
         },
-
         {
             number: "MES 03",
             title: "Diciembre 2025",
             date: "Tercer mes",
-            description:
-                "Aquí irá lo que vivimos durante este mes.",
+            description: "Esperabámos que diciembre terminara bien, aqui fue cuando probamos una promo de kfc y nos sentíamos suertudos, luego tbm cada que salía de PPP nunca faltaba su pollito. Pero derrepente tuvieron que ingresarte para la operacion de tu pata. Recuerdo que me sentí muy mal por no poder acompañarte, ninguno sabía cuanto tiempo estarías dentro y bueno de como te habrás sentido, despues de todo no te gusta que te vean en ese estado. luego de tu operación que fue justo el 23, cuando justo estaba bajando queria que me escribieras para saber si sería buena idea ir allá, pero ya te habian ingresado... despues de eso omití por completo el feriado y decidí ir a visitarte, al menos por un rato siquiera, no quería que pasaras tan mal tu navidad. Por suerte la operación salio bene..",
             folder: "meses/mes3"
         },
-
         {
             number: "MES 04",
             title: "Enero 2026",
             date: "Cuarto mes",
-            description:
-                "Aquí irá lo que vivimos durante este mes.",
+            description: "Aquí irá lo que vivimos durante este mes.",
             folder: "meses/mes4"
         },
-
         {
             number: "MES 05",
             title: "Febrero 2026",
             date: "Quinto mes",
-            description:
-                "Aquí irá lo que vivimos durante este mes.",
+            description: "Aquí irá lo que vivimos durante este mes.",
             folder: "meses/mes5"
         },
-
         {
             number: "MES 06",
             title: "Marzo 2026",
             date: "Sexto mes",
-            description:
-                "Aquí irá lo que vivimos durante este mes.",
+            description: "Aquí irá lo que vivimos durante este mes.",
             folder: "meses/mes6"
         },
-
         {
             number: "MES 07",
             title: "Abril 2026",
             date: "Séptimo mes",
-            description:
-                "Aquí irá lo que vivimos durante este mes.",
+            description: "Aquí irá lo que vivimos durante este mes.",
             folder: "meses/mes7"
         },
-
         {
             number: "MES 08",
             title: "Mayo 2026",
             date: "Octavo mes",
-            description:
-                "Aquí irá lo que vivimos durante este mes.",
+            description: "Aquí irá lo que vivimos durante este mes.",
             folder: "meses/mes8"
         },
-
         {
             number: "MES 09",
             title: "Junio 2026",
             date: "Noveno mes",
-            description:
-                "Aquí irá lo que vivimos durante este mes.",
+            description: "Aquí irá lo que vivimos durante este mes.",
             folder: "meses/mes9"
         },
-
         {
             number: "MES 10",
             title: "Julio 2026",
             date: "Décimo mes",
-            description:
-                "Aquí irá lo que vivimos durante este mes.",
+            description: "Aquí irá lo que vivimos durante este mes.",
             folder: "meses/mes10"
         },
-
         {
             number: "MES 11",
             title: "Agosto 2026",
             date: "Undécimo mes",
-            description:
-                "Aquí irá lo que vivimos durante este mes.",
+            description: "Aquí irá lo que vivimos durante este mes.",
             folder: "meses/mes11"
         },
-
         {
             number: "MES 12",
             title: "Septiembre 2026",
             date: "Un año juntos",
-            description:
-                "Y llegamos al mes 12. Aquí irá la historia que cierre este primer año juntos.",
+            description: "Y llegamos al mes 12. Aquí irá la historia que cierre este primer año juntos.",
             folder: "meses/mes12"
         }
-
     ];
 
 
     let currentMonth = 0;
-
     let currentMonthPhoto = 0;
+    let monthTimer = null;
 
 
     /* =========================================================
@@ -1670,759 +1022,379 @@ document.addEventListener("DOMContentLoaded", () => {
     ========================================================= */
 
     async function loadMonthPhotos() {
-
         await Promise.all(
-
-            months.map(
-                async month => {
-
-                    try {
-
-                        month.photos =
-                            await getR2Images(
-                                month.folder
-                            );
-
-                    } catch (error) {
-
-                        month.photos = [];
-
-                        console.error(
-                            `Error cargando ${month.folder}:`,
-                            error
-                        );
-
-                    }
-
+            months.map(async month => {
+                try {
+                    month.photos = await getR2Images(month.folder);
+                } catch (error) {
+                    month.photos = [];
+                    console.error(`Error cargando ${month.folder}:`, error);
                 }
-            )
-
+            })
         );
-
-
-        loadMonth(
-            currentMonth
-        );
-
+        loadMonth(currentMonth);
     }
 
 
     /* =========================================================
-       CARGAR MES
+       CARGAR MES ESPECÍFICO
     ========================================================= */
 
     function loadMonth(index) {
+        if (index < 0 || index >= months.length) return;
 
-        if (
-            index < 0 ||
-            index >= months.length
-        ) {
-            return;
-        }
+        currentMonth = index;
+        currentMonthPhoto = 0;
 
+        const month = months[currentMonth];
 
-        currentMonth =
-            index;
-
-        currentMonthPhoto =
-            0;
-
-
-        const month =
-            months[
-                currentMonth
-            ];
-
-
-        if (monthNumber) {
-            monthNumber.textContent =
-                month.number;
-        }
-
-
-        if (monthTitle) {
-            monthTitle.textContent =
-                month.title;
-        }
-
-
-        if (monthDate) {
-            monthDate.textContent =
-                month.date;
-        }
-
-
-        if (monthStory) {
-            monthStory.textContent =
-                month.description;
-        }
-
+        if (monthNumber) monthNumber.textContent = month.number;
+        if (monthTitle) monthTitle.textContent = month.title;
+        if (monthDate) monthDate.textContent = month.date;
+        if (monthStory) monthStory.textContent = month.description;
 
         if (monthProgressText) {
-
-            monthProgressText.textContent =
-                `${currentMonth + 1} / ${months.length}`;
-
+            monthProgressText.textContent = `${currentMonth + 1} / ${months.length}`;
         }
-
 
         if (monthProgressFill) {
-
-            monthProgressFill.style.width =
-                `${(
-                    (currentMonth + 1) /
-                    months.length
-                ) * 100}%`;
-
+            monthProgressFill.style.width = `${((currentMonth + 1) / months.length) * 100}%`;
         }
-
 
         if (monthPrevButton) {
-
-            monthPrevButton.disabled =
-                currentMonth === 0;
-
+            monthPrevButton.disabled = currentMonth === 0;
         }
-
 
         if (monthNextButton) {
-
-            monthNextButton.disabled =
-                currentMonth ===
-                months.length - 1;
-
+            monthNextButton.disabled = currentMonth === months.length - 1;
         }
-
 
         if (continueFinal) {
-
-            continueFinal.style.display =
-                currentMonth ===
-                months.length - 1
-                    ? "block"
-                    : "none";
-
+            continueFinal.style.display = currentMonth === months.length - 1 ? "block" : "none";
         }
 
-
         renderMonthPhoto();
-
     }
 
 
     /* =========================================================
-       CARRUSEL DE MESES
+       CONTROL AUTOMÁTICO DE CARRUSEL DE MESES
+    ========================================================= */
+
+    function stopMonthAuto() {
+        if (monthTimer) {
+            clearInterval(monthTimer);
+            monthTimer = null;
+        }
+        const monthVideo = document.getElementById("monthVideo");
+        if (monthVideo) {
+            monthVideo.pause();
+            monthVideo.onended = null;
+        }
+    }
+
+    function startMonthAuto() {
+        stopMonthAuto();
+
+        const monthsScreen = document.getElementById("months");
+        if (!monthsScreen || !monthsScreen.classList.contains("active-screen")) {
+            return;
+        }
+
+        const month = months[currentMonth];
+        const photos = month.photos || [];
+
+        if (photos.length <= 1) return;
+
+        const photo = photos[currentMonthPhoto];
+        const isVideo = /\.(mp4|webm|ogg|mov|m4v)$/i.test(photo);
+
+        if (isVideo) {
+            const monthVideo = document.getElementById("monthVideo");
+            if (monthVideo) {
+                if (monthVideo.paused && monthVideo.readyState >= 2) {
+                    monthVideo.play().catch(() => {});
+                }
+                monthVideo.onended = () => {
+                    nextMonthPhotoAuto();
+                };
+            }
+        } else {
+            monthTimer = setInterval(() => {
+                nextMonthPhotoAuto();
+            }, AUTO_SLIDE_TIME);
+        }
+    }
+
+    function nextMonthPhotoAuto() {
+        const photos = months[currentMonth].photos || [];
+        if (!photos.length) return;
+
+        currentMonthPhoto = (currentMonthPhoto + 1) % photos.length;
+        renderMonthPhoto();
+    }
+
+
+    /* =========================================================
+       RENDERIZAR FOTO/VIDEO ACTUAL DEL MES
     ========================================================= */
 
     function renderMonthPhoto() {
+        stopMonthAuto();
 
-        const month =
-            months[
-                currentMonth
-            ];
+        const month = months[currentMonth];
+        const photos = month.photos || [];
+        const total = photos.length;
 
-        const photos =
-            month.photos || [];
+        /* CREAR ELEMENTO VIDEO SI NO EXISTE */
+        let monthVideo = document.getElementById("monthVideo");
+        if (!monthVideo && monthPhoto && monthPhoto.parentElement) {
+            monthVideo = document.createElement("video");
+            monthVideo.id = "monthVideo";
+            monthVideo.className = "month-video";
+            monthVideo.muted = true;
+            monthVideo.autoplay = true;
+            monthVideo.playsInline = true;
+            monthVideo.setAttribute("muted", "");
+            monthVideo.setAttribute("playsinline", "");
 
-        const total =
-            photos.length;
+            monthVideo.style.maxWidth = "100%";
+            monthVideo.style.maxHeight = "100%";
+            monthVideo.style.width = "auto";
+            monthVideo.style.height = "auto";
+            monthVideo.style.objectFit = "contain";
+            monthVideo.style.margin = "auto";
+            monthVideo.style.borderRadius = "10px";
+            monthVideo.style.display = "none";
 
-
-        if (monthDots) {
-            monthDots.innerHTML =
-                "";
+            monthPhoto.parentElement.appendChild(monthVideo);
         }
 
+        if (monthDots) monthDots.innerHTML = "";
 
         if (total === 0) {
-
-            if (monthPhoto) {
-                monthPhoto.style.display =
-                    "none";
-            }
-
-
-            if (monthPhotoPlaceholder) {
-                monthPhotoPlaceholder.style.display =
-                    "flex";
-            }
-
-
-            if (monthPrev) {
-                monthPrev.style.display =
-                    "none";
-            }
-
-
-            if (monthNext) {
-                monthNext.style.display =
-                    "none";
-            }
-
-
-            if (monthPhotoCounter) {
-                monthPhotoCounter.textContent =
-                    "0 / 0";
-            }
-
-
+            if (monthPhoto) monthPhoto.style.display = "none";
+            if (monthVideo) monthVideo.style.display = "none";
+            if (monthPhotoPlaceholder) monthPhotoPlaceholder.style.display = "flex";
+            if (monthPrev) monthPrev.style.display = "none";
+            if (monthNext) monthNext.style.display = "none";
+            if (monthPhotoCounter) monthPhotoCounter.textContent = "0 / 0";
             return;
         }
 
+        if (currentMonthPhoto >= total) currentMonthPhoto = total - 1;
+        if (currentMonthPhoto < 0) currentMonthPhoto = 0;
 
-        if (
-            currentMonthPhoto >= total
-        ) {
+        const photo = photos[currentMonthPhoto];
+        const isVideo = /\.(mp4|webm|ogg|mov|m4v)$/i.test(photo);
 
-            currentMonthPhoto =
-                total - 1;
+        /* SI ES VIDEO */
+        if (isVideo) {
+            if (monthPhoto) monthPhoto.style.display = "none";
 
+            if (monthVideo) {
+                monthVideo.style.display = "block";
+                monthVideo.pause();
+                monthVideo.removeAttribute("src");
+                monthVideo.currentTime = 0;
+                monthVideo.src = mediaUrl(photo);
+                monthVideo.load();
+
+                monthVideo.onloadedmetadata = () => {
+                    const monthsScreen = document.getElementById("months");
+                    if (monthsScreen && monthsScreen.classList.contains("active-screen")) {
+                        monthVideo.play().catch(() => {});
+                    }
+                };
+            }
+
+        /* SI ES IMAGEN */
+        } else {
+            if (monthVideo) {
+                monthVideo.pause();
+                monthVideo.onended = null;
+                monthVideo.removeAttribute("src");
+                monthVideo.style.display = "none";
+            }
+
+            if (monthPhoto) {
+                monthPhoto.style.display = "block";
+                monthPhoto.classList.add("changing");
+                monthPhoto.src = mediaUrl(photo);
+                monthPhoto.alt = `${month.title} - foto ${currentMonthPhoto + 1}`;
+
+                monthPhoto.onload = () => {
+                    monthPhoto.classList.remove("changing");
+                };
+            }
         }
 
-
-        if (
-            currentMonthPhoto < 0
-        ) {
-
-            currentMonthPhoto =
-                0;
-
-        }
-
-
-        const photo =
-            photos[
-                currentMonthPhoto
-            ];
-
-
-        if (monthPhoto) {
-
-            monthPhoto.style.display =
-                "block";
-
-            monthPhoto.classList.add(
-                "changing"
-            );
-
-            monthPhoto.src =
-                mediaUrl(photo);
-
-            monthPhoto.alt =
-                `${month.title} - foto ${currentMonthPhoto + 1}`;
-
-            monthPhoto.onload = () => {
-
-                monthPhoto.classList.remove(
-                    "changing"
-                );
-
-            };
-
-        }
-
-
-        if (monthPhotoPlaceholder) {
-
-            monthPhotoPlaceholder.style.display =
-                "none";
-
-        }
-
+        if (monthPhotoPlaceholder) monthPhotoPlaceholder.style.display = "none";
 
         if (monthPrev) {
-
-            monthPrev.style.display =
-                "block";
-
-            monthPrev.disabled =
-                currentMonthPhoto === 0;
-
+            monthPrev.style.display = "block";
+            monthPrev.disabled = total <= 1;
         }
-
 
         if (monthNext) {
-
-            monthNext.style.display =
-                "block";
-
-            monthNext.disabled =
-                currentMonthPhoto ===
-                total - 1;
-
+            monthNext.style.display = "block";
+            monthNext.disabled = total <= 1;
         }
-
 
         if (monthPhotoCounter) {
-
-            monthPhotoCounter.textContent =
-                `${currentMonthPhoto + 1} / ${total}`;
-
+            monthPhotoCounter.textContent = `${currentMonthPhoto + 1} / ${total}`;
         }
 
+        if (monthDots && total <= 15) {
+            photos.forEach((_, index) => {
+                const dot = document.createElement("button");
+                dot.type = "button";
+                dot.className = "carousel-dot";
+                if (index === currentMonthPhoto) dot.classList.add("active");
+                dot.setAttribute("aria-label", `Ir a foto ${index + 1}`);
 
-        if (
-            monthDots &&
-            total <= 15
-        ) {
+                dot.addEventListener("click", () => {
+                    currentMonthPhoto = index;
+                    renderMonthPhoto();
+                });
 
-            photos.forEach(
-                (_, index) => {
-
-                    const dot =
-                        document.createElement(
-                            "button"
-                        );
-
-                    dot.type =
-                        "button";
-
-                    dot.className =
-                        "carousel-dot";
-
-
-                    if (
-                        index ===
-                        currentMonthPhoto
-                    ) {
-
-                        dot.classList.add(
-                            "active"
-                        );
-
-                    }
-
-
-                    dot.setAttribute(
-                        "aria-label",
-                        `Ir a foto ${index + 1}`
-                    );
-
-
-                    dot.addEventListener(
-                        "click",
-                        () => {
-
-                            currentMonthPhoto =
-                                index;
-
-                            renderMonthPhoto();
-
-                        }
-                    );
-
-
-                    monthDots.appendChild(
-                        dot
-                    );
-
-                }
-            );
-
+                monthDots.appendChild(dot);
+            });
         }
 
+        startMonthAuto();
     }
 
 
     /* =========================================================
-       FOTO ANTERIOR
+       BOTONES Y EVENTOS MESES
     ========================================================= */
 
     if (monthPrev) {
-
-        monthPrev.addEventListener(
-            "click",
-            () => {
-
-                if (
-                    currentMonthPhoto > 0
-                ) {
-
-                    currentMonthPhoto--;
-
-                    renderMonthPhoto();
-
-                }
-
-            }
-        );
-
+        monthPrev.addEventListener("click", () => {
+            const photos = months[currentMonth].photos || [];
+            if (!photos.length) return;
+            currentMonthPhoto = (currentMonthPhoto - 1 + photos.length) % photos.length;
+            renderMonthPhoto();
+        });
     }
-
-
-    /* =========================================================
-       FOTO SIGUIENTE
-    ========================================================= */
 
     if (monthNext) {
-
-        monthNext.addEventListener(
-            "click",
-            () => {
-
-                const photos =
-                    months[
-                        currentMonth
-                    ].photos || [];
-
-
-                if (
-                    currentMonthPhoto <
-                    photos.length - 1
-                ) {
-
-                    currentMonthPhoto++;
-
-                    renderMonthPhoto();
-
-                }
-
-            }
-        );
-
+        monthNext.addEventListener("click", () => {
+            nextMonthPhotoAuto();
+        });
     }
 
-
-    /* =========================================================
-       SWIPE DE MESES
-    ========================================================= */
-
-    const monthCarousel =
-        document.querySelector(
-            ".month-carousel"
-        );
-
-
+    const monthCarousel = document.querySelector(".month-carousel");
     if (monthCarousel) {
+        monthCarousel.addEventListener("mouseenter", () => stopMonthAuto());
+        monthCarousel.addEventListener("mouseleave", () => startMonthAuto());
 
-        let monthTouchStart =
-            0;
-
-
-        monthCarousel.addEventListener(
-            "touchstart",
-            event => {
-
-                if (
-                    event.changedTouches.length
-                ) {
-
-                    monthTouchStart =
-                        event.changedTouches[
-                            0
-                        ].screenX;
-
-                }
-
-            },
-            {
-                passive: true
+        let monthTouchStart = 0;
+        monthCarousel.addEventListener("touchstart", event => {
+            if (event.changedTouches.length) {
+                monthTouchStart = event.changedTouches[0].screenX;
             }
-        );
+        }, { passive: true });
 
+        monthCarousel.addEventListener("touchend", event => {
+            if (!event.changedTouches.length) return;
+            const monthTouchEnd = event.changedTouches[0].screenX;
+            const distance = monthTouchEnd - monthTouchStart;
 
-        monthCarousel.addEventListener(
-            "touchend",
-            event => {
+            if (Math.abs(distance) < 50) return;
 
-                if (
-                    !event.changedTouches.length
-                ) {
-                    return;
-                }
-
-
-                const monthTouchEnd =
-                    event.changedTouches[
-                        0
-                    ].screenX;
-
-
-                const distance =
-                    monthTouchEnd -
-                    monthTouchStart;
-
-
-                if (
-                    Math.abs(distance) < 50
-                ) {
-                    return;
-                }
-
-
-                if (
-                    distance < 0
-                ) {
-
-                    monthNext?.click();
-
-                } else {
-
-                    monthPrev?.click();
-
-                }
-
-            },
-            {
-                passive: true
+            if (distance < 0) {
+                monthNext?.click();
+            } else {
+                monthPrev?.click();
             }
-        );
-
+        }, { passive: true });
     }
 
 
-    /* =========================================================
-       MES ANTERIOR
-    ========================================================= */
+    /* NAVEGACIÓN ENTRE MESES */
 
     if (monthPrevButton) {
-
-        monthPrevButton.addEventListener(
-            "click",
-            () => {
-
-                if (
-                    currentMonth > 0
-                ) {
-
-                    loadMonth(
-                        currentMonth - 1
-                    );
-
-                }
-
+        monthPrevButton.addEventListener("click", () => {
+            if (currentMonth > 0) {
+                loadMonth(currentMonth - 1);
             }
-        );
-
+        });
     }
-
-
-    /* =========================================================
-       MES SIGUIENTE
-    ========================================================= */
 
     if (monthNextButton) {
-
-        monthNextButton.addEventListener(
-            "click",
-            () => {
-
-                if (
-                    currentMonth <
-                    months.length - 1
-                ) {
-
-                    loadMonth(
-                        currentMonth + 1
-                    );
-
-                }
-
+        monthNextButton.addEventListener("click", () => {
+            if (currentMonth < months.length - 1) {
+                loadMonth(currentMonth + 1);
             }
-        );
-
+        });
     }
-
-
-    /* =========================================================
-       ENTRAR A LOS MESES
-    ========================================================= */
 
     if (enterRelationship) {
-
-        enterRelationship.addEventListener(
-            "click",
-            () => {
-
-                currentMonth = 0;
-
-                currentMonthPhoto = 0;
-
-                showScreen(
-                    "months"
-                );
-
-                loadMonth(
-                    currentMonth
-                );
-
-            }
-        );
-
+        enterRelationship.addEventListener("click", () => {
+            currentMonth = 0;
+            currentMonthPhoto = 0;
+            showScreen("months");
+            loadMonth(currentMonth);
+        });
     }
-
-
-    /* =========================================================
-       MES 12 → FINAL
-    ========================================================= */
 
     if (continueFinal) {
-
-        continueFinal.addEventListener(
-            "click",
-            () => {
-
-                showScreen(
-                    "final"
-                );
-
-            }
-        );
-
+        continueFinal.addEventListener("click", () => {
+            showScreen("final");
+        });
     }
-
-
-    /* =========================================================
-       FINAL → HOME
-    ========================================================= */
 
     if (finalHome) {
-
-        finalHome.addEventListener(
-            "click",
-            () => {
-
-                showScreen(
-                    "home"
-                );
-
-            }
-        );
-
+        finalHome.addEventListener("click", () => {
+            showScreen("home");
+        });
     }
 
 
-    /* =========================================================
-       MÚSICA
-    ========================================================= */
+    /* MÚSICA */
 
-    let musicPlaying =
-        false;
-
-
-    if (
-        musicToggle &&
-        backgroundMusic
-    ) {
-
-        musicToggle.addEventListener(
-            "click",
-            async () => {
-
-                try {
-
-                    if (
-                        !musicPlaying
-                    ) {
-
-                        await backgroundMusic.play();
-
-                        musicPlaying =
-                            true;
-
-                        musicToggle.textContent =
-                            "Pausar música";
-
-                    } else {
-
-                        backgroundMusic.pause();
-
-                        musicPlaying =
-                            false;
-
-                        musicToggle.textContent =
-                            "Reproducir música";
-
-                    }
-
-                } catch (error) {
-
-                    console.warn(
-                        "No se pudo reproducir la música:",
-                        error
-                    );
-
+    let musicPlaying = false;
+    if (musicToggle && backgroundMusic) {
+        musicToggle.addEventListener("click", async () => {
+            try {
+                if (!musicPlaying) {
+                    await backgroundMusic.play();
+                    musicPlaying = true;
+                    musicToggle.textContent = "música";
+                } else {
+                    backgroundMusic.pause();
+                    musicPlaying = false;
+                    musicToggle.textContent = "música";
                 }
-
+            } catch (error) {
+                console.warn("No se pudo reproducir la música:", error);
             }
-        );
-
+        });
     }
-
-
-    /* =========================================================
-       AVISO DE MÚSICA
-    ========================================================= */
 
     if (musicTip) {
-
-        setTimeout(
-            () => {
-
-                musicTip.classList.add(
-                    "hidden"
-                );
-
-            },
-            6000
-        );
-
+        setTimeout(() => {
+            musicTip.classList.add("hidden");
+        }, 6000);
     }
 
 
-    /* =========================================================
-       TECLADO
-    ========================================================= */
+    /* TECLADO */
 
-    document.addEventListener(
-        "keydown",
-        event => {
+    document.addEventListener("keydown", event => {
+        const monthsScreen = document.getElementById("months");
+        if (!monthsScreen || !monthsScreen.classList.contains("active-screen")) return;
 
-            const monthsScreen =
-                document.getElementById(
-                    "months"
-                );
+        if (event.key === "ArrowLeft") monthPrev?.click();
+        if (event.key === "ArrowRight") monthNext?.click();
+    });
 
 
-            if (
-                !monthsScreen ||
-                !monthsScreen.classList.contains(
-                    "active-screen"
-                )
-            ) {
-                return;
-            }
-
-
-            if (
-                event.key ===
-                "ArrowLeft"
-            ) {
-
-                monthPrev?.click();
-
-            }
-
-
-            if (
-                event.key ===
-                "ArrowRight"
-            ) {
-
-                monthNext?.click();
-
-            }
-
-        }
-    );
-
-
-    /* =========================================================
-       INICIALIZACIÓN
-    ========================================================= */
+    /* INICIALIZACIÓN */
 
     loadMonth(0);
-
     loadMonthPhotos();
 
 });

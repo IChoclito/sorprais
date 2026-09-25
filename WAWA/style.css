@@ -2612,4 +2612,9 @@ p {
         width: 8px !important;
         height: 8px !important;
     }
+    
+    #musicToggle.playing {
+    border: 2px solid #d94d26; /* Ajusta este código HEX al color naranja de tu diseño */
+    box-shadow: 0 0 8px rgba(217, 77, 38, 0.4);
+}
 }
