@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
        MÚSICA EN LOOP (SISTEMA CORREGIDO)
     ========================================================= */
 
-    const MUSIC_SOURCE = "https://pub-87e98aa71f684d1598882d2da16b74eb.r2.dev/FOTOS%20Y%20VIDIOS/lisa%20ono%20-%20contigo%20en%20la%20distancia%20(instrumental).mp3"; 
+    const MUSIC_SOURCE = "https://pub-87e98aa71f684d1598882d2da16b74eb.r2.dev/FOTOS%20Y%20VIDIOS/Contigo%20En%20La%20Distancia.mp3"; 
 
     if (musicToggle && backgroundMusic) {
         /* Carga la fuente de audio correctamente */
@@ -950,63 +950,63 @@ document.addEventListener("DOMContentLoaded", () => {
             number: "MES 04",
             title: "Enero 2026",
             date: "Cuarto mes",
-            description: "Aquí irá lo que vivimos durante este mes.",
+            description: "Las vacaciones nuevamente regresaron, me puse a trabajar y tú para poder recuperarte ya no pudiste. Aquí las llamadas siguieron, empezamos a buscar formas de pasarla juntos como jugando plato y bobox y de vez en cuando nos visitabamos (bueno ir a tu casa jjeje) aqui al menos te encontrabas mejor aunque un tanto desanimado ya que te gusta estar en movimiento C:",
             folder: "meses/mes4"
         },
         {
             number: "MES 05",
             title: "Febrero 2026",
             date: "Quinto mes",
-            description: "Aquí irá lo que vivimos durante este mes.",
+            description: "Tu madre no quiso quedarse en casa así que aprovecho para llevarte a Ayacucho justo cerca del 14, de mi parte me apené ya que quería pasarlo contigo, pero al final lo pasamos para una semana antes, viniste a la casa y te quedaste compramos pollito pero ya nisiquiera lo comimos, recuerdo haberme puesto mal ese día (la verdad ya ni recuerdo el porqué) pero la pasamos bien.. Despues del viaje veía que tenias poca señal y no podiamos comunicarnos a menudo pero igual te vería en marzo (ah ya me acordé el porqué xdd)",
             folder: "meses/mes5"
         },
         {
             number: "MES 06",
             title: "Marzo 2026",
             date: "Sexto mes",
-            description: "Aquí irá lo que vivimos durante este mes.",
+            description: "llegamos a marzo y aqui nuevamente salimos pero yo en ese entonces me sentía confundida, habiamos estado un tiempito lejos y quizás suene exagerado pero estaba dejando de sentir lo mismo. En aquel entonces cuando me decias 'Por qué lloras?' y te me quedabas viendo no sabia como responderte. No quería acostumbrarme a tu ausencia y creo que ahi nos dijimos varias cosas, tal vez lo veas como un mes más pero ese mes fue de alguna manera un tanto complicado que termino por afectar nuestra relación, aun así pudimos arreglar muchas cosas y la inseguridad que tanto tenía se fue desvaneciendo.. un mes con bastante trasfondo. Pero hey, las risas nunca faltaron jejeje, aqui nuevamente antes de que iniciara el ciclo nos fuimos a chosica y nos quedamos, dejamos todo listo para la llegada del nuevo ciclo",
             folder: "meses/mes6"
         },
         {
             number: "MES 07",
             title: "Abril 2026",
             date: "Séptimo mes",
-            description: "Aquí irá lo que vivimos durante este mes.",
+            description: "Inició el ciclo pero todavia decidí darme una semanita de sabático, dejé a mi hermano en su lugar. Cuando fuimos a mi casa por el cumple de mi mamá recuerdas? me habia molestado contigo pero bueno (solo de acordarme me enojé de novo jjdsjdsjsd) trajiste bocaditos y aunque fue en mal momento la celebración debido a las votaciones estuvo bonito. Logré comprar mi arrocera tbm por fin y nos fuimos a pasear por puruchuco, algo que recuerdo fue que me puse triste porque yo me emocione cuando nos fuimos a sodimac y veiamos los productos que pude haber recepcionado, pero no lo viste con la misma emoción es entendible igual, tbm recuerdo que por celebrar el nuevo ciclo nos fuimos a comer (siempre comida jdsjds) tripita en la casera, la verdad un mes tranqui, recuerdas alguna anecdota de este mes?",
             folder: "meses/mes7"
         },
         {
             number: "MES 08",
             title: "Mayo 2026",
             date: "Octavo mes",
-            description: "Aquí irá lo que vivimos durante este mes.",
+            description: "Despues de postular a cien mil trabajos por fin logré con uno. Ya no sabia como pagar el sigte mes al señor leandro, pero por suerte me aceptaron. Era mi primer trabajo en planilla asi que no sabia como sería pero pudiste apoyarme en lo que sabias y agradezco mucho ello, aun recuerdo ese dia de los makis que se demoraron como 2 horas la orden y encima feo jsdjdsj, ah y tambien el gran trafico que hubo cuando te guarde asiento en el burrito mientras terminabas tu clase de rubén me parece, no lograste llegar a tu casa y creo que convenia mas caminar de tanto trafico que habia, por suerte ese dia al menos pudiste alojarte en casa de tu tía, aunque hubiese preferido que te quedaras en casa nyejejej",
             folder: "meses/mes8"
         },
         {
             number: "MES 09",
             title: "Junio 2026",
             date: "Noveno mes",
-            description: "Aquí irá lo que vivimos durante este mes.",
+            description: "llego la segunda vuelta y con eso la kk de la keiko, recuerdo haber salido del trabajo de frente a tomar carro a tu casa (ya era la segunda vez) ese día recuerdo que me invitaste a pasar la noche con tus tías pero andaba un poco desanimada porque habia visto a mi papapa, pero todo bene, ese dia terminé saliendo tarde de tu casa y te decia en el carro que ya no llegaría y al final llegue 20 min antes. Tambien cuando te acompañe para el cumple de tu mami y no sabia que llevar.. :v ",
             folder: "meses/mes9"
         },
         {
             number: "MES 10",
             title: "Julio 2026",
             date: "Décimo mes",
-            description: "Aquí irá lo que vivimos durante este mes.",
+            description: "Julio llegó pero me hicieron tomar una decision, si trabajaba o salia de paseo de integración el mismo dia de mi cumpleaños. Estuvo interesante, cuando por fin pude ir contigo a unas de tus radioterapias que por cierto pudiste manejar bastante bien, te acoplaste a los horarios y tratabas de mantenerte al dia en clases. Ese mismo día me parece nos fuimos al lum y de paso veiamos un regalo para el cezan, y tbm cuando al fin de mes nos fuimos nuevamente a estacion angamos para el feria fest y de paso me quedé en tu casa como por un dia más creo (la menos vividora *gato con tomates*) y que bajamos a jugar con tus primas, me divertí bastante ese dia. Esa gallinita ciega deberiamos repetirlo ;D",
             folder: "meses/mes10"
         },
         {
             number: "MES 11",
             title: "Agosto 2026",
             date: "Undécimo mes",
-            description: "Aquí irá lo que vivimos durante este mes.",
+            description: "Agosto pasó tranquilo, de hecho pasó un poco lento.. recuerdo que en ese mes lo más significativo que hicimos fue ir al colchón de nubes cerca de tu casa, fue un plan bastante improvisado ya que te había mencionado de que quería llegar temprano a mi casa así que queríamos ir y ver, ya recordarás que pasó después xdd, aún me da pena cuando cuentas de que literalmente te dejé cuando bajábamos. Debí considerar de que no estás tan apto para esforzar tu pata izquierda pero menos mal pudimos llegar sanos a casa, porque si no esto no sería una anécdota. Lo bueno de esas pequeñas vacaciones es que podíamos darnos un poquito de tiempo para jugar o hacer otras actividades y ya luego regresaba al trabajo",
             folder: "meses/mes11"
         },
         {
             number: "MES 12",
             title: "Septiembre 2026",
             date: "Un año juntos",
-            description: "Y llegamos al mes 12. Aquí irá la historia que cierre este primer año juntos.",
+            description: "waa que abuso ya casi un año, regresamos de las pequeñas vacas. Aveces te quedabas en casita y preparabamos alguito. Por fin logre cambiarme de tienda asi que tendria un poco mas de time y tu tambien ya que ya no estabas yendo constantemente al hospital. Chalemente tu si lograste pasear a otros lados y eso me alegra no estas constantemente en la casita, algun dia tambien podremos pasar time en otro lugar que no sea lima nomas jeje (paciencia)",
             folder: "meses/mes12"
         }
     ];
