@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
        MÚSICA EN LOOP (SISTEMA CORREGIDO)
     ========================================================= */
 
-    const MUSIC_SOURCE = "https://pub-87e98aa71f684d1598882d2da16b74eb.r2.dev/FOTOS%20Y%20VIDIOS/Contigo%20En%20La%20Distancia.mp3"; 
+    const MUSIC_SOURCE = "https://pub-87e98aa71f684d1598882d2da16b74eb.r2.dev/FOTOS%20Y%20VIDIOS/Dream%20Girl%20(Slowed%20%2B%20Reverb).mp3"; 
 
     if (musicToggle && backgroundMusic) {
         /* Carga la fuente de audio correctamente */
